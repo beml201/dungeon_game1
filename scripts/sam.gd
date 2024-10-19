@@ -8,7 +8,15 @@ var health = 100
 var player_alive = true
 var attack_ip = false
 #var player_current_attack = false
-
+#@onready var SpriteChange = load("res://scenes/mushroom.tscn").instantiate()
+func _ready() -> void:
+	print("READY!")
+	Global.connect("magic_mushroom", _on_spritechange)
+#	SpriteChange.spritechange.connect(_on_spritechange)
+func _on_spritechange():
+	print("spirtechage2!")
+	$Sprite2D.texture = load("res://assets/green mush in cage.png")
+	
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	velocity = input_direction * speed

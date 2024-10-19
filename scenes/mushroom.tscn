@@ -23,6 +23,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [node name="mushroom" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.5)
 script = ExtResource("1_qnr27")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
