@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cbrm1u773r5uw"]
+[gd_scene load_steps=10 format=3 uid="uid://cbrm1u773r5uw"]
 
 [ext_resource type="Script" path="res://scripts/sam.gd" id="1_s1nh6"]
 [ext_resource type="Texture2D" uid="uid://dn62rv6xkpffi" path="res://assets/animations/lil dude smol walking2.png" id="2_5cr3q"]
+[ext_resource type="Script" path="res://scripts/camera_2d.gd" id="3_w0ec1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yr0cg"]
 size = Vector2(27, 24)
@@ -36,22 +37,6 @@ tracks/1/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_06lmu"]
-resource_name = "walking"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [1, 2]
-}
-
 [sub_resource type="Animation" id="Animation_1jj8w"]
 resource_name = "slash"
 length = 0.3
@@ -78,6 +63,22 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_06lmu"]
+resource_name = "walking"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 2]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_q2h2c"]
@@ -113,3 +114,6 @@ libraries = {
 "": SubResource("AnimationLibrary_q2h2c")
 }
 speed_scale = 0.3
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("3_w0ec1")
