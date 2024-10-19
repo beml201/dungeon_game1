@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var speed = 100
+var speed = 100 +randi()%20
 var player_chase = false
 var player = null
 
@@ -9,6 +9,7 @@ func _physics_process(delta):
 	if player_chase:
 		position += (player.global_position - global_position)/speed
 		
+
 
 func _on_view_body_entered(body):
 	player = body
@@ -19,4 +20,5 @@ func _on_view_body_exited(body):
 	player = null
 	player_chase = false
 	
-	
+func mob_slime():
+	pass 
