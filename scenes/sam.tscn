@@ -88,6 +88,9 @@ _data = {
 "walking": SubResource("Animation_06lmu")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_gvhd2"]
+radius = 9.1966
+
 [node name="sam" type="CharacterBody2D"]
 script = ExtResource("1_s1nh6")
 
@@ -115,5 +118,17 @@ libraries = {
 }
 speed_scale = 0.3
 
+<<<<<<< Updated upstream
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("3_w0ec1")
+=======
+[node name="hit box" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hit box"]
+position = Vector2(-13.0258, 9.55824)
+scale = Vector2(2.10092, 2.6902)
+shape = SubResource("CircleShape2D_gvhd2")
+
+[connection signal="body_entered" from="hit box" to="." method="_on_hit_box_body_entered"]
+[connection signal="body_exited" from="hit box" to="." method="_on_hit_box_body_exited"]
+>>>>>>> Stashed changes
