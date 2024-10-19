@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://cbrm1u773r5uw"]
 
 [ext_resource type="Script" path="res://scripts/sam.gd" id="1_s1nh6"]
-[ext_resource type="Texture2D" uid="uid://dn62rv6xkpffi" path="res://assets/animations/lil dude smol walking2.png" id="2_5cr3q"]
+[ext_resource type="Texture2D" uid="uid://d1gqyi6xkojic" path="res://assets/animations/lil dude smol walking.png" id="2_fetyd"]
 [ext_resource type="Script" path="res://scripts/camera_2d.gd" id="3_qa43r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yr0cg"]
@@ -97,7 +97,7 @@ script = ExtResource("1_s1nh6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, 1)
-texture = ExtResource("2_5cr3q")
+texture = ExtResource("2_fetyd")
 hframes = 4
 frame = 1
 
