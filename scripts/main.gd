@@ -10,6 +10,8 @@ func _ready():
 	var dungeon = Dungeon.instantiate()
 	add_child(dungeon)
 	
+	#var player_current_attack = false
+	
 	# Load player
 	var player = Player.instantiate()
 	player.global_position = Vector2i(5*tilesize,5*tilesize)	

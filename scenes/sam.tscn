@@ -67,6 +67,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_06lmu"]
 resource_name = "walking"
+length = 0.3
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -75,7 +76,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
+"times": PackedFloat32Array(0, 0.166667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [1, 2]
@@ -116,11 +117,12 @@ metadata/_edit_group_ = true
 libraries = {
 "": SubResource("AnimationLibrary_q2h2c")
 }
-speed_scale = 0.3
 
-[node name="hit box" type="Area2D" parent="."]
+[node name="hit_box" type="Area2D" parent="."]
+position = Vector2(-7.41403, -0.263397)
+scale = Vector2(0.719156, 0.911434)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hit box"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hit_box"]
 position = Vector2(-13.0258, 9.55824)
 scale = Vector2(2.10092, 2.6902)
 shape = SubResource("CircleShape2D_gvhd2")
@@ -128,5 +130,9 @@ shape = SubResource("CircleShape2D_gvhd2")
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("3_qa43r")
 
-[connection signal="body_entered" from="hit box" to="." method="_on_hit_box_body_entered"]
-[connection signal="body_exited" from="hit box" to="." method="_on_hit_box_body_exited"]
+[node name="attack_cooldown" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="body_entered" from="hit_box" to="." method="_on_hit_box_body_entered"]
+[connection signal="body_exited" from="hit_box" to="." method="_on_hit_box_body_exited"]
+[connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]

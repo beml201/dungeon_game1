@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cttkfpsyxqqfx"]
 
 [ext_resource type="Texture2D" uid="uid://cdo8kfwtdtony" path="res://assets/animations/mob_slime.png" id="1_n6j4j"]
-[ext_resource type="Script" path="res://scenes/mob_slime.gd" id="1_ricp3"]
+[ext_resource type="Script" path="res://scripts/mob_slime.gd" id="1_ricp3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_578ss"]
 radius = 3.88806
@@ -57,7 +57,8 @@ hframes = 7
 frame = 1
 
 [node name="enemy body" type="CollisionShape2D" parent="."]
-scale = Vector2(-7.50862, -6.87817)
+position = Vector2(0, 5)
+scale = Vector2(-6.8557, -5.94024)
 shape = SubResource("CircleShape2D_578ss")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -77,5 +78,11 @@ shape = SubResource("CircleShape2D_6jksf")
 scale = Vector2(3.15232, 3.18997)
 shape = SubResource("CircleShape2D_2h7gr")
 
+[node name="attack_cooldown" type="Timer" parent="."]
+wait_time = 0.5
+
 [connection signal="body_entered" from="view" to="." method="_on_view_body_entered"]
 [connection signal="body_exited" from="view" to="." method="_on_view_body_exited"]
+[connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]
+[connection signal="body_exited" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_exited"]
+[connection signal="timeout" from="attack_cooldown" to="." method="_on_timer_timeout"]
