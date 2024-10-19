@@ -17,7 +17,7 @@ func _ready():
 	
 	
 	var slime = Slime.instantiate()
-	slime.global_position = Vector2i(6*tilesize,6*tilesize)	
+	slime.global_position = Vector2i(12*tilesize,12*tilesize)	
 	add_child(slime)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

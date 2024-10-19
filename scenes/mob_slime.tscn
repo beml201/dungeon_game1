@@ -44,6 +44,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6jksf"]
+radius = 7.14267
 
 [node name="mob_slime" type="CharacterBody2D"]
 script = ExtResource("1_ricp3")
@@ -62,8 +63,11 @@ libraries = {
 "": SubResource("AnimationLibrary_qyjcd")
 }
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="view" type="Area2D" parent="."]
 
-[node name="view" type="CollisionShape2D" parent="Area2D"]
-scale = Vector2(-21.2376, 19.0614)
+[node name="view area" type="CollisionShape2D" parent="view"]
+scale = Vector2(-30.3, 27.6844)
 shape = SubResource("CircleShape2D_6jksf")
+
+[connection signal="body_entered" from="view" to="." method="_on_view_body_entered"]
+[connection signal="body_exited" from="view" to="." method="_on_view_body_exited"]
