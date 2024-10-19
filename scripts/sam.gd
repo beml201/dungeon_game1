@@ -15,7 +15,7 @@ func _ready() -> void:
 #	SpriteChange.spritechange.connect(_on_spritechange)
 func _on_spritechange():
 	print("spirtechage2!")
-	$Sprite2D.texture = load("res://assets/green mush in cage.png")
+	$Sprite2D.texture = load("res://assets/animations/lil dude walking.png")
 	
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
