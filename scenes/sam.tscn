@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbrm1u773r5uw"]
+
+[ext_resource type="Script" path="res://scripts/sam.gd" id="1_s1nh6"]
+[ext_resource type="Texture2D" uid="uid://bifgajxgldwfq" path="res://icon.svg" id="2_o3ryo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ailhc"]
+
+[node name="sam" type="CharacterBody2D"]
+script = ExtResource("1_s1nh6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_o3ryo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ailhc")
