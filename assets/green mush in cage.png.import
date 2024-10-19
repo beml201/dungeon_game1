@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddv5kkduxljwf"
-path="res://.godot/imported/RandomLevelGenTileset.png-306a7aed97c3ec84ba6dd61575016cb5.ctex"
+uid="uid://dqxakp2wx37ou"
+path="res://.godot/imported/green mush in cage.png-17a65316fd03106ea410f8e7f6eb3d47.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/RandomLevelGenTileset.png"
-dest_files=["res://.godot/imported/RandomLevelGenTileset.png-306a7aed97c3ec84ba6dd61575016cb5.ctex"]
+source_file="res://assets/green mush in cage.png"
+dest_files=["res://.godot/imported/green mush in cage.png-17a65316fd03106ea410f8e7f6eb3d47.ctex"]
 
 [params]
 

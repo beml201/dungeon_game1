@@ -7,7 +7,7 @@ const DIRECTIONS := [Vector2i(1,0),
 					 Vector2i(0, 1),
 					 Vector2i(0, -1)]
 
-@onready var tiles: TileMap = $TileMap
+@onready var tiles: TileMap = $TileMapLayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

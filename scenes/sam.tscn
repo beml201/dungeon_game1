@@ -1,15 +1,59 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbrm1u773r5uw"]
+[gd_scene load_steps=7 format=3 uid="uid://cbrm1u773r5uw"]
 
 [ext_resource type="Script" path="res://scripts/sam.gd" id="1_s1nh6"]
-[ext_resource type="Texture2D" uid="uid://bifgajxgldwfq" path="res://icon.svg" id="2_o3ryo"]
+[ext_resource type="Texture2D" uid="uid://bprd3xpf220nx" path="res://assets/animations/lil dude smol walking.png" id="2_4xfnr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ailhc"]
+
+[sub_resource type="Animation" id="Animation_06lmu"]
+resource_name = "walking"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_jibnj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_q2h2c"]
+_data = {
+"RESET": SubResource("Animation_jibnj"),
+"walking": SubResource("Animation_06lmu")
+}
 
 [node name="sam" type="CharacterBody2D"]
 script = ExtResource("1_s1nh6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_o3ryo")
+texture = ExtResource("2_4xfnr")
+hframes = 3
+frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ailhc")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_q2h2c")
+}
