@@ -1,81 +1,43 @@
-[gd_scene load_steps=7 format=3 uid="uid://cku3o44upqqkh"]
+[gd_scene load_steps=6 format=3 uid="uid://cku3o44upqqkh"]
 
 [ext_resource type="Script" path="res://scripts/dungeon.gd" id="1_aiwhc"]
 [ext_resource type="Texture2D" uid="uid://bqmlpctednd8q" path="res://assets/tile grid 2.png" id="2_s3hbs"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cdsu0"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bo7f4"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2j48o"]
 texture = ExtResource("2_s3hbs")
-texture_region_size = Vector2i(32, 32)
+texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 8, 8, 32, -8, 32, -8, -8, 32, -8, 32, 8)
 1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -8, -32, -8, 32, -8, 32, 8, -32, 8)
 2:0/0 = 0
-3:0/0 = 0
-4:0/0 = 0
-5:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, -32, 8, -32, -8, 8, -8, 8, 32, -8, 32)
 0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 32, 8, 32, 8, -32, -8, -32, -8, 32)
 1:1/0 = 0
 2:1/0 = 0
-3:1/0 = 0
-4:1/0 = 0
-5:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 32, -8, 32, -8, -32, 8, -32, 8, 32)
 0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 32, -8, 32, 8, -8, 8, -8, -32, 8, -32)
 1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -8, -32, -8, 32, -8, 32, 8, -32, 8)
 2:2/0 = 0
-3:2/0 = 0
-4:2/0 = 0
-5:2/0 = 0
-0:3/0 = 0
-1:3/0 = 0
-2:3/0 = 0
-3:3/0 = 0
-4:3/0 = 0
-5:3/0 = 0
-0:4/0 = 0
-1:4/0 = 0
-2:4/0 = 0
-3:4/0 = 0
-4:4/0 = 0
-5:4/0 = 0
-0:5/0 = 0
-1:5/0 = 0
-2:5/0 = 0
-3:5/0 = 0
-4:5/0 = 0
-5:5/0 = 0
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -8, -32, 8, -32, 8, 8, -32, 8, -32, -8)
 
 [sub_resource type="TileSet" id="TileSet_wdlpo"]
-tile_size = Vector2i(32, 32)
+tile_size = Vector2i(64, 64)
 physics_layer_0/collision_layer = 1
 physics_layer_0/physics_material = SubResource("PhysicsMaterial_cdsu0")
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "bitMask"
 terrain_set_0/terrain_0/color = Color(0.418871, 0.973965, 0, 1)
-sources/0 = SubResource("TileSetAtlasSource_bo7f4")
-
-[sub_resource type="GDScript" id="GDScript_1vol0"]
-script/source = "extends TileMap
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-"
+sources/1 = SubResource("TileSetAtlasSource_2j48o")
 
 [node name="Dungeon" type="Node2D"]
 script = ExtResource("1_aiwhc")
 
-[node name="TileMap" type="TileMap" parent="."]
-tile_set = SubResource("TileSet_wdlpo")
-format = 2
-script = SubResource("GDScript_1vol0")
-
-[node name="Layer0" type="TileMapLayer" parent="."]
+[node name="RoomMap" type="TileMapLayer" parent="."]
 use_parent_material = true
 tile_set = SubResource("TileSet_wdlpo")
