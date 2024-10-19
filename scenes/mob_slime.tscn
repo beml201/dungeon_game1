@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://cttkfpsyxqqfx"]
+
+[ext_resource type="Texture2D" uid="uid://cdo8kfwtdtony" path="res://assets/animations/mob_slime.png" id="1_n6j4j"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_578ss"]
+radius = 3.88806
+
+[sub_resource type="Animation" id="Animation_h6tqp"]
+resource_name = "jump"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.0333333, 0.0666667, 0.233333, 0.466667, 0.6, 0.733333, 0.866667, 1.03333, 1.23333, 1.36667, 1.46667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4, 5, 6, 5, 3, 1, 2, 1]
+}
+
+[sub_resource type="Animation" id="Animation_h8ahu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qyjcd"]
+_data = {
+"RESET": SubResource("Animation_h8ahu"),
+"jump": SubResource("Animation_h6tqp")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6jksf"]
+
+[node name="mob_slime" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_n6j4j")
+hframes = 7
+frame = 1
+
+[node name="hitbox" type="CollisionShape2D" parent="."]
+scale = Vector2(-7.50862, -6.87817)
+shape = SubResource("CircleShape2D_578ss")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qyjcd")
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="view" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(-21.2376, 19.0614)
+shape = SubResource("CircleShape2D_6jksf")
