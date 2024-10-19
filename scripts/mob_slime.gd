@@ -43,16 +43,15 @@ func deal_with_damage():
 		health = health - 20
 		player_attack_cooldown = false
 		$attack_cooldown.start()
-		print(health)
-		#position += (global_position - player.global_position)-2 
-		print("slime health =", health)
-		if health <=0:
-			#get_node("AnimationPlayer").play("die")
-			self.queue_free()
+		#position += (global_position - player.global_position) 
+		
 		
 
 func _on_attack_cooldown_timeout() -> void:
 	player_attack_cooldown = true
-
-func _on_timer_timeout() -> void:
-	pass # Replace with function body.
+	Global.player_current_attack = false
+	Global.player_can_attack = true 
+	print("slime health =", health)
+	if health <=0:
+	#get_node("AnimationPlayer").play("die")
+		self.queue_free()

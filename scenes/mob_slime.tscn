@@ -85,4 +85,4 @@ wait_time = 0.5
 [connection signal="body_exited" from="view" to="." method="_on_view_body_exited"]
 [connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]
 [connection signal="body_exited" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_exited"]
-[connection signal="timeout" from="attack_cooldown" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]

@@ -28,9 +28,12 @@ func _physics_process(delta):
 		self.queue_free()
 	
 func _input(event):
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton and Global.player_can_attack:
 		Global.player_current_attack = true
+		Global.player_can_attack = false
+		print("attacking")
 		get_node("AnimationPlayer").play("slash")
+		$attack_duration.start()
 		
 #func attack():
 	#if Input.is_action_just_pressed("attack"):
@@ -58,3 +61,9 @@ func mob_slime_attack():
 
 func _on_attack_cooldown_timeout() -> void:
 	mob_slime_attack_cooldown = true
+
+
+func _on_attack_duration_timeout() -> void:
+	Global.player_current_attack = false
+	Global.player_can_attack = true 
+	#print("not attacking")

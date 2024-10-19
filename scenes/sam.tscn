@@ -133,6 +133,10 @@ script = ExtResource("3_qa43r")
 [node name="attack_cooldown" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="attack_duration" type="Timer" parent="."]
+wait_time = 0.15
+
 [connection signal="body_entered" from="hit_box" to="." method="_on_hit_box_body_entered"]
 [connection signal="body_exited" from="hit_box" to="." method="_on_hit_box_body_exited"]
 [connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="timeout" from="attack_duration" to="." method="_on_attack_duration_timeout"]
