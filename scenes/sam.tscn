@@ -54,7 +54,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_1jj8w"]
 resource_name = "slash"
-length = 0.4
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -62,7 +62,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.166667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [3, 2]
@@ -74,7 +74,7 @@ tracks/1/path = NodePath("Sprite2D/Area2D/sword:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.0666667, 0.333333),
+"times": PackedFloat32Array(0.0333333, 0.233333),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -112,4 +112,4 @@ metadata/_edit_group_ = true
 libraries = {
 "": SubResource("AnimationLibrary_q2h2c")
 }
-speed_scale = 0.4
+speed_scale = 0.3
