@@ -1,13 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://cbrm1u773r5uw"]
+[gd_scene load_steps=9 format=3 uid="uid://cbrm1u773r5uw"]
 
 [ext_resource type="Script" path="res://scripts/sam.gd" id="1_s1nh6"]
-[ext_resource type="Texture2D" uid="uid://bprd3xpf220nx" path="res://assets/animations/lil dude smol walking.png" id="2_4xfnr"]
+[ext_resource type="Texture2D" uid="uid://dn62rv6xkpffi" path="res://assets/animations/lil dude smol walking2.png" id="2_5cr3q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yr0cg"]
+size = Vector2(27, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q3lud"]
 size = Vector2(23, 45)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yr0cg"]
-size = Vector2(10, 24)
 
 [sub_resource type="Animation" id="Animation_jibnj"]
 length = 0.001
@@ -18,10 +18,22 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 0.25),
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [2, 2]
+"values": [1, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/Area2D/sword:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_06lmu"]
@@ -40,9 +52,38 @@ tracks/0/keys = {
 "values": [1, 2]
 }
 
+[sub_resource type="Animation" id="Animation_1jj8w"]
+resource_name = "slash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [3, 2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/Area2D/sword:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0666667, 0.333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_q2h2c"]
 _data = {
 "RESET": SubResource("Animation_jibnj"),
+"slash": SubResource("Animation_1jj8w"),
 "walking": SubResource("Animation_06lmu")
 }
 
@@ -50,19 +91,25 @@ _data = {
 script = ExtResource("1_s1nh6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_4xfnr")
-hframes = 3
-frame = 2
+position = Vector2(0, 1)
+texture = ExtResource("2_5cr3q")
+hframes = 4
+frame = 1
+
+[node name="Area2D" type="Area2D" parent="Sprite2D"]
+
+[node name="sword" type="CollisionShape2D" parent="Sprite2D/Area2D"]
+position = Vector2(9, 6)
+shape = SubResource("RectangleShape2D_yr0cg")
+disabled = true
 
 [node name="body" type="CollisionShape2D" parent="."]
-position = Vector2(-18.5, 9.5)
+position = Vector2(-18, 10)
 shape = SubResource("RectangleShape2D_q3lud")
-
-[node name="sword" type="CollisionShape2D" parent="."]
-position = Vector2(1, 6)
-shape = SubResource("RectangleShape2D_yr0cg")
+metadata/_edit_group_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_q2h2c")
 }
+speed_scale = 0.4

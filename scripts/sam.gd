@@ -9,3 +9,10 @@ func get_input():
 func _physics_process(delta):
 	get_input()
 	move_and_slide()
+	
+func _input(event):
+	if event is InputEventMouseButton:
+		get_node("AnimationPlayer").play("slash")
+		print("attack") 
+	
+	

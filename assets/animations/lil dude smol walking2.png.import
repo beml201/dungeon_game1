@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1gqyi6xkojic"
-path="res://.godot/imported/lil dude smol walking.png-e685e5c9a57b275584e798c1bbca12cb.ctex"
+uid="uid://dn62rv6xkpffi"
+path="res://.godot/imported/lil dude smol walking2.png-1b6a20219ac470f72db8e5e399a30621.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/animations/lil dude smol walking.png"
-dest_files=["res://.godot/imported/lil dude smol walking.png-e685e5c9a57b275584e798c1bbca12cb.ctex"]
+source_file="res://assets/animations/lil dude smol walking2.png"
+dest_files=["res://.godot/imported/lil dude smol walking2.png-1b6a20219ac470f72db8e5e399a30621.ctex"]
 
 [params]
 
