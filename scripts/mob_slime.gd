@@ -49,8 +49,6 @@ func deal_with_damage():
 
 func _on_attack_cooldown_timeout() -> void:
 	player_attack_cooldown = true
-	Global.player_current_attack = false
-	Global.player_can_attack = true 
 	print("slime health =", health)
 	if health <=0:
 	#get_node("AnimationPlayer").play("die")
