@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cbrm1u773r5uw"]
+[gd_scene load_steps=11 format=3 uid="uid://cbrm1u773r5uw"]
 
 [ext_resource type="Script" path="res://scripts/sam.gd" id="1_s1nh6"]
 [ext_resource type="Texture2D" uid="uid://dn62rv6xkpffi" path="res://assets/animations/lil dude smol walking2.png" id="2_5cr3q"]
-[ext_resource type="Script" path="res://scripts/camera_2d.gd" id="3_w0ec1"]
+[ext_resource type="Script" path="res://scripts/camera_2d.gd" id="3_qa43r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yr0cg"]
 size = Vector2(27, 24)
@@ -118,10 +118,6 @@ libraries = {
 }
 speed_scale = 0.3
 
-<<<<<<< Updated upstream
-[node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("3_w0ec1")
-=======
 [node name="hit box" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hit box"]
@@ -129,6 +125,8 @@ position = Vector2(-13.0258, 9.55824)
 scale = Vector2(2.10092, 2.6902)
 shape = SubResource("CircleShape2D_gvhd2")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("3_qa43r")
+
 [connection signal="body_entered" from="hit box" to="." method="_on_hit_box_body_entered"]
 [connection signal="body_exited" from="hit box" to="." method="_on_hit_box_body_exited"]
->>>>>>> Stashed changes
