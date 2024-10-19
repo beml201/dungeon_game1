@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cttkfpsyxqqfx"]
+[gd_scene load_steps=8 format=3 uid="uid://cttkfpsyxqqfx"]
 
 [ext_resource type="Texture2D" uid="uid://cdo8kfwtdtony" path="res://assets/animations/mob_slime.png" id="1_n6j4j"]
+[ext_resource type="Script" path="res://scenes/mob_slime.gd" id="1_ricp3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_578ss"]
 radius = 3.88806
@@ -45,6 +46,7 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_6jksf"]
 
 [node name="mob_slime" type="CharacterBody2D"]
+script = ExtResource("1_ricp3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_n6j4j")
