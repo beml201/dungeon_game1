@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cbrm1u773r5uw"]
+[gd_scene load_steps=23 format=3 uid="uid://cbrm1u773r5uw"]
 
 [ext_resource type="Script" path="res://scripts/sam.gd" id="1_s1nh6"]
 [ext_resource type="Texture2D" uid="uid://d1gqyi6xkojic" path="res://assets/animations/lil dude smol walking.png" id="2_fetyd"]
@@ -121,6 +121,114 @@ _data = {
 "walking-slash": SubResource("Animation_mc3fb")
 }
 
+[sub_resource type="Animation" id="Animation_47k0u"]
+resource_name = "static"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arm:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.433333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_kfqt2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arm:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_syhbe"]
+resource_name = "attack"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arm:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tdy6o"]
+_data = {
+"RESET": SubResource("Animation_kfqt2"),
+"attack": SubResource("Animation_syhbe"),
+"static": SubResource("Animation_47k0u")
+}
+
+[sub_resource type="Animation" id="Animation_ukogc"]
+resource_name = "static"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Eye:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_xlysp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Eye:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_epbmo"]
+resource_name = "attack"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Eye:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.233333, 0.333333, 0.4, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 2, 1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ngt45"]
+_data = {
+"RESET": SubResource("Animation_xlysp"),
+"attack": SubResource("Animation_epbmo"),
+"static": SubResource("Animation_ukogc")
+}
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_gvhd2"]
 radius = 9.1966
 
@@ -135,13 +243,23 @@ use_parent_material = true
 position = Vector2(0, 1)
 texture = ExtResource("4_q2gbx")
 hframes = 4
-frame = 1
+
+[node name="SamEmbiggened" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("6_0dgii")
+hframes = 4
+
+[node name="Eye" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("5_u7kex")
+hframes = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, 1)
 texture = ExtResource("2_fetyd")
 hframes = 4
 frame = 1
+region_rect = Rect2(0.005, 0, 256, 64)
 metadata/_edit_group_ = true
 
 [node name="SwordHit" type="Area2D" parent="Sprite2D"]
@@ -156,9 +274,19 @@ position = Vector2(-18, 10)
 shape = SubResource("RectangleShape2D_q3lud")
 metadata/_edit_group_ = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="Basic_Animations" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_q2h2c")
+}
+
+[node name="Arm_Animations" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tdy6o")
+}
+
+[node name="Eye_Animations" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ngt45")
 }
 
 [node name="hit_box" type="Area2D" parent="."]
@@ -179,17 +307,8 @@ wait_time = 0.5
 [node name="attack_duration" type="Timer" parent="."]
 wait_time = 0.15
 
-[node name="SamEmbiggened" type="Sprite2D" parent="."]
-visible = false
-texture = ExtResource("6_0dgii")
-hframes = 4
-
-[node name="Eye" type="Sprite2D" parent="."]
-visible = false
-texture = ExtResource("5_u7kex")
-hframes = 4
-
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="animation_finished" from="Basic_Animations" to="." method="_on_animation_player_animation_finished"]
+[connection signal="animation_finished" from="Basic_Animations" to="." method="_on_basic_animations_animation_finished"]
 [connection signal="body_entered" from="hit_box" to="." method="_on_hit_box_body_entered"]
 [connection signal="body_exited" from="hit_box" to="." method="_on_hit_box_body_exited"]
 [connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]
