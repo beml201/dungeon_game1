@@ -8,7 +8,7 @@ func _physics_process(delta: float) -> void:
 		print("sprite change!")
 		sprite_changed=true
 		Global.magic_mushroom.emit()
-		#$Sprite2D.texture = load("res://assets/green mush in cage.png")
+		$Sprite2D.texture = load("res://assets/cage.png")
 
 func _on_view_body_entered(body: Node2D) -> void:
 	if body.name=="sam":
