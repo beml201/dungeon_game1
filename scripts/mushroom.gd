@@ -38,7 +38,7 @@ func _player_interact(strength):
 		else:
 			Global.magic_mushroom.emit()
 			$TextBox/Label.text = "The caged mushroom stays caged..."
-		#Global.player_can_upgrade = false
+		Global.player_can_upgrade = false
 
 func _on_view_body_entered(body: Node2D) -> void:
 	if body.name=="sam":
