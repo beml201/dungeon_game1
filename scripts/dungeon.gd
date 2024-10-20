@@ -1,6 +1,5 @@
 extends Node2D
 
-const TILE_SIZE := 64
 const N_ROOMS := 6
 const ROOM_SIZE := Vector2i(10,10)
 const CORRIDOR_LENGTH = 5
@@ -18,6 +17,10 @@ var room_pos_ul: Array = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# Listen for mushroom signal to tell it to draw the corridors
+	Global.connect("magic_mushroom", _on_magic_mushroom)
+	
+	# Generate a room order so we can identify which corridors to draw and when
 	generated_rooms = generate_room_order()
 	print(generated_rooms)
 	for room in generated_rooms[0]:
@@ -25,12 +28,14 @@ func _ready():
 								(room[1]*ROOM_SIZE[1]))
 		room_pos_ul.append(room_ul)
 		draw_room(room_ul, ROOM_SIZE[0], ROOM_SIZE[1])
-	for i in range(1, N_ROOMS):
-		generate_corridor(i)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+	
+func _on_magic_mushroom():
+	Global.dungeons_finished += 1
+	draw_corridor(Global.dungeons_finished)
 	
 func draw_room(coord_upperleft, width, height):
 	var cells := []
@@ -74,7 +79,7 @@ func generate_room_order() -> Array:
 		direction_history.append(new_room_direction)
 	return [rooms, direction_history]
 	
-func generate_corridor(n_events):
+func draw_corridor(n_events):
 	# Create corridor from new room to old room
 	var which_side = generated_rooms[1][n_events]*Vector2i(-1,-1)
 	# Navigate the corridor to the right position
@@ -86,4 +91,7 @@ func generate_corridor(n_events):
 	
 	tiles.set_cell(corridor_pos, 1, TILE_DICT['mm'])
 	tiles.set_cell(cp2, 1, TILE_DICT['mm'])
+	
+func add_mushroom(coord_upperleft, width, height):
+	pass
 	
