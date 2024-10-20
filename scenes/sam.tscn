@@ -98,7 +98,6 @@ script = ExtResource("1_s1nh6")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, 1)
 texture = ExtResource("2_fetyd")
-flip_h = true
 hframes = 4
 frame = 1
 
