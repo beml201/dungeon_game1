@@ -16,4 +16,6 @@ var dungeons_finished := 0
 var player_can_upgrade = true
 
 # Public calls
+signal player_attack
+signal mob_attack
 signal magic_mushroom

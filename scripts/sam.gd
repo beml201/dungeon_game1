@@ -1,19 +1,31 @@
 extends CharacterBody2D
 
+# MetaData
 @export var speed = 400
+var health := 100
+var strength := 20
 
+# Other variables
 var mob_slime_inattack_range = false 
 var mob_slime_attack_cooldown = true
-var health = 100
 var player_alive = true
 var attack_ip = false
 var is_big = false
+var is_attacking = false
 #var player_current_attack = false
 #@onready var SpriteChange = load("res://scenes/mushroom.tscn").instantiate()
 func _ready() -> void:
 	print("READY!")
+	Global.connect("mob_attack", _take_damage)
 	Global.connect("magic_mushroom", _on_spritechange)
 #	SpriteChange.spritechange.connect(_on_spritechange)
+func _take_damage(damage):
+	health -= damage
+	$HealthLabel.text = "Health: "+str(max(0,health))
+	if health<=0:
+		queue_free()
+		print("DEATH!!!")
+	
 func _on_spritechange(event):
 	if event=="EMBIGGEN":
 		$Sprite2D.texture = load("res://assets/animations/lil dude walking.png")
@@ -52,15 +64,22 @@ func get_input():
 			$Sprite2D/SwordHit/sword.position.x = 18.5
 		else:
 			$Sprite2D/SwordHit/sword.position.x = 9
+	# Animation code
 	velocity = input_direction * speed
-	if velocity != Vector2(0,0):
-		if Global.player_current_attack == true:
-			get_node("Basic_Animations").play("walking-slash")
-			#$attack_duration.start()
+	if not is_attacking:
+		if velocity != Vector2(0,0):
+			$Basic_Animations.play("walking")
 		else:
-			get_node("Basic_Animations").play("walking")
-	elif Global.player_current_attack == false:
-		get_node("Basic_Animations").stop()
+			$Basic_Animations.stop()
+	#if is_attacking:
+	#	$Basic_Animations.play("walking-slash")
+		#if Global.player_current_attack == true or is_attacking:
+			#get_node("Basic_Animations").play("walking-slash")
+			#$attack_duration.start()
+		#else:
+		#	get_node("Basic_Animations").play("walking")
+	#elif Global.player_current_attack == false:
+	#	get_node("Basic_Animations").stop()
 	
 func _physics_process(delta):
 	get_input()
@@ -73,12 +92,18 @@ func _physics_process(delta):
 		self.queue_free()
 	
 func _input(event):
-	if event is InputEventMouseButton and Global.player_can_attack:
-		Global.player_current_attack = true
-		Global.player_can_attack = false
-		get_node("Basic_Animations").play("slash")
-		print("attacking")
+	if event.is_action("attack") and not is_attacking:
+		is_attacking = true
+		Global.player_attack.emit(strength)
+		$Basic_Animations.play("walking-slash")
+		#print('attack')
+	#if event is InputEventMouseButton and Global.player_can_attack:
+		#Global.player_current_attack = true
+		#Global.player_can_attack = false
+	#	get_node("Basic_Animations").play("slash")
+	#	print("attacking")
 		#$attack_duration.start()
+		
 		
 #func attack():
 	#if Input.is_action_just_pressed("attack"):
@@ -116,9 +141,11 @@ func _on_attack_duration_timeout() -> void:
 
 
 func _on_animation_player_animation_finished(anim_name):
+	#print(anim_name)
 	if anim_name == "slash" or anim_name == "walking-slash":
+		is_attacking = false
 		Global.player_current_attack = false
 		Global.player_can_attack = true 
-		print("player_can_attack")
+		#print("player_can_attack")
 	else:
 		return
