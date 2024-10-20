@@ -36,6 +36,7 @@ func _on_spritechange(event):
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	if input_direction[0] < 0:
+		Global.player_direction = "left"
 		$Sprite2D.flip_h = true
 		if is_big:
 			$Sprite2D.position.x = -30
@@ -44,6 +45,7 @@ func get_input():
 			$Sprite2D.position.x = -39
 			$Sprite2D/SwordHit/sword.position.x = -10
 	if input_direction[0] > 0:
+		Global.player_direction = "right"
 		$Sprite2D.flip_h = false
 		$Sprite2D.position.x = 0
 		if is_big:

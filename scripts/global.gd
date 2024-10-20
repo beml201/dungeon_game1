@@ -9,6 +9,7 @@ const BASE_TILE_DICT := {
 	"ur":Vector2i(2,0), "mr":Vector2i(2,1), "br":Vector2i(2,2)}
 
 #  Dynamic MetaData
+var player_direction = "right"
 var player_current_attack = false
 var player_can_attack = true
 var dungeons_finished := 0
