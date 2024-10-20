@@ -7,6 +7,7 @@ var mob_slime_attack_cooldown = true
 var health = 100
 var player_alive = true
 var attack_ip = false
+var is_big = false
 #var player_current_attack = false
 #@onready var SpriteChange = load("res://scenes/mushroom.tscn").instantiate()
 func _ready() -> void:
@@ -16,6 +17,18 @@ func _ready() -> void:
 func _on_spritechange(event):
 	if event=="EMBIGGEN":
 		$Sprite2D.texture = load("res://assets/animations/lil dude walking.png")
+		$body.position.x = -14.75
+		$body.position.y = 4.75
+		$body.shape.size.x = 28.5
+		$body.shape.size.y = 53.5
+		$hit_box/CollisionShape2D.position.x = -9.158
+		$hit_box/CollisionShape2D.position.y = 7.969
+		$hit_box/CollisionShape2D.shape.radius = 13.5
+		$Sprite2D/SwordHit/sword.shape.size.x = 29
+		$Sprite2D/SwordHit/sword.shape.size.y = 32
+		$Sprite2D/SwordHit/sword.position.x = 18.5
+		$Sprite2D/SwordHit/sword.position.y = 0
+		is_big = true
 	else:
 		$Arm.show()
 
@@ -24,12 +37,19 @@ func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	if input_direction[0] < 0:
 		$Sprite2D.flip_h = true
-		$Sprite2D.position.x = -39
-		$Sprite2D/SwordHit/sword.position.x = -10
+		if is_big:
+			$Sprite2D.position.x = -30
+			$Sprite2D/SwordHit/sword.position.x = -18
+		else:
+			$Sprite2D.position.x = -39
+			$Sprite2D/SwordHit/sword.position.x = -10
 	if input_direction[0] > 0:
 		$Sprite2D.flip_h = false
 		$Sprite2D.position.x = 0
-		$Sprite2D/SwordHit/sword.position.x = 9
+		if is_big:
+			$Sprite2D/SwordHit/sword.position.x = 18.5
+		else:
+			$Sprite2D/SwordHit/sword.position.x = 9
 	velocity = input_direction * speed
 	if velocity != Vector2(0,0):
 		if Global.player_current_attack == true:
