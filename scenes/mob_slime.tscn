@@ -56,7 +56,7 @@ texture = ExtResource("1_n6j4j")
 hframes = 7
 frame = 1
 
-[node name="enemy body" type="CollisionShape2D" parent="."]
+[node name="body" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)
 scale = Vector2(-6.8557, -5.94024)
 shape = SubResource("CircleShape2D_578ss")
@@ -95,7 +95,7 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.803922, 0, 0, 1)
 theme_override_font_sizes/font_size = 15
-text = "Health:"
+text = "Health: 100"
 
 [connection signal="body_entered" from="view" to="." method="_on_view_body_entered"]
 [connection signal="body_exited" from="view" to="." method="_on_view_body_exited"]
