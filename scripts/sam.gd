@@ -13,10 +13,11 @@ func _ready() -> void:
 	print("READY!")
 	Global.connect("magic_mushroom", _on_spritechange)
 #	SpriteChange.spritechange.connect(_on_spritechange)
-func _on_spritechange():
-	print("spirtechage2!")
-	$Sprite2D.texture = load("res://assets/animations/lil dude walking.png")
-	$Arm.show()
+func _on_spritechange(event):
+	if event=="EMBIGGEN":
+		$Sprite2D.texture = load("res://assets/animations/lil dude walking.png")
+	else:
+		$Arm.show()
 
 	
 func get_input():

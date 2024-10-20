@@ -81,6 +81,22 @@ shape = SubResource("CircleShape2D_2h7gr")
 [node name="attack_cooldown" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="HealthLabel" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 32.0
+offset_right = 20.0
+offset_bottom = 55.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.803922, 0, 0, 1)
+theme_override_font_sizes/font_size = 15
+text = "Health:"
+
 [connection signal="body_entered" from="view" to="." method="_on_view_body_entered"]
 [connection signal="body_exited" from="view" to="." method="_on_view_body_exited"]
 [connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]
