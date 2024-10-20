@@ -10,11 +10,10 @@ var player_attack_cooldown
 
 func _physics_process(delta):
 	get_node ("AnimationPlayer").play("jump")
+	$HealthLabel.text = "Health: "+str(max(0,health))
 	deal_with_damage()
 	if player_chase:
 		position += (player.global_position - global_position)/speed
-		
-
 
 func _on_view_body_entered(body):
 	player = body
