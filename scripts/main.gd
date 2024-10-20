@@ -23,9 +23,9 @@ func _ready():
 	slime2.global_position = Vector2i(20*tilesize,20*tilesize)	
 	add_child(slime2)
 	
-	var mush = Mush.instantiate()
-	mush.global_position = Vector2i(4*tilesize, 4*tilesize)
-	add_child(mush)
+	#var mush = Mush.instantiate()
+	#mush.global_position = Vector2i(4*tilesize, 4*tilesize)
+	#add_child(mush)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

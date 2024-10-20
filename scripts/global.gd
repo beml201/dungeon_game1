@@ -2,6 +2,7 @@ extends Node
 
 # Static MetaData
 const TILE_SIZE := 64
+const UPGRADE_OPTIONS := ['EMBIGGEN', 'ENLARGEN']
 
 #  Dynamic MetaData
 var player_current_attack = false

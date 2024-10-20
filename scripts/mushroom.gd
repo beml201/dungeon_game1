@@ -2,6 +2,13 @@ extends CharacterBody2D
 
 var in_range = false
 var sprite_changed = false
+var mushroom_type = 'EMBIGGEN'
+
+func _ready():
+	if mushroom_type=='EMBIGGEN':
+		$Sprite2D.texture = load("res://assets/mush in cage.png")
+	else:
+		$Sprite2D.texture = load("res://assets/green mush in cage.png")
 
 func _physics_process(delta: float) -> void:
 	if in_range and Global.player_current_attack and not sprite_changed:
