@@ -3,14 +3,10 @@ extends Node2D
 # Static Dungeon MetaData
 const N_ROOMS := 6
 const ROOM_SIZE := Vector2i(10,10)
-const CORRIDOR_LENGTH = 5
 const DIRECTIONS := [Vector2i(1,0),
 					 Vector2i(-1,0),
 					 Vector2i(0, 1),
 					 Vector2i(0, -1)]
-const TILE_DICT := {"ul":Vector2i(0,0), "ml":Vector2i(0,1), "bl":Vector2i(0,2),
-					"um":Vector2i(1,0), "mm":Vector2i(1,1), "bm":Vector2i(1,2),
-					"ur":Vector2i(2,0), "mr":Vector2i(2,1), "br":Vector2i(2,2)}
 
 # Generated Dungeon MetaData
 @onready var tiles: TileMapLayer = $RoomMap
@@ -52,26 +48,27 @@ func _on_magic_mushroom():
 	draw_corridor(Global.dungeons_finished)
 	
 func draw_room(coord_upperleft, width, height):
+	const atlas := Global.BASE_TILE_DICT
 	var cells := []
 	for y in range(height):
 		for x in range(width):
 			cells.append(Vector2i(x+coord_upperleft[0], y+coord_upperleft[1]))
 
-	# Generate the tile look
+	# Name the atlas location of the tile to use
 	var cell_tiles := []
-	cell_tiles.append(TILE_DICT['ul'])
+	cell_tiles.append(atlas['ul'])
 	for x in range(width-2):
-		cell_tiles.append(TILE_DICT['um'])
-	cell_tiles.append(TILE_DICT['ur'])
+		cell_tiles.append(atlas['um'])
+	cell_tiles.append(atlas['ur'])
 	for y in range(height-2):
-		cell_tiles.append(TILE_DICT['ml'])
+		cell_tiles.append(atlas['ml'])
 		for x in range(width-2):
-			cell_tiles.append(TILE_DICT['mm'])
-		cell_tiles.append(TILE_DICT['mr'])
-	cell_tiles.append(TILE_DICT['bl'])
+			cell_tiles.append(atlas['mm'])
+		cell_tiles.append(atlas['mr'])
+	cell_tiles.append(atlas['bl'])
 	for x in range(width-2):
-		cell_tiles.append(TILE_DICT['bm'])
-	cell_tiles.append(TILE_DICT['br'])
+		cell_tiles.append(atlas['bm'])
+	cell_tiles.append(atlas['br'])
 	
 	# Print all the tiles
 	for i in range(cells.size()):
@@ -94,17 +91,38 @@ func generate_room_order() -> Array:
 	return [rooms, direction_history]
 	
 func draw_corridor(n_events):
+	const atlas := Global.CORRIDOR_TILE_DICT
 	# Create corridor from new room to old room
 	var which_side = generated_rooms[1][n_events]*Vector2i(-1,-1)
-	# Navigate the corridor to the right position
-	var corridor_pos = (which_side + Vector2i(1,1))
+	# Navigate the corridor to the correct position
+	var corridor_anchor = (which_side + Vector2i(1,1))
 	# Standardise to world
-	corridor_pos = room_pos_ul[n_events] + corridor_pos*(ROOM_SIZE+Vector2i(-1,-1))/2
-	# Add the other end
-	var cp2 = corridor_pos+Vector2i(which_side)
+	corridor_anchor = room_pos_ul[n_events] + corridor_anchor*(ROOM_SIZE+Vector2i(-1,-1))/2
+	# Add the other positions
+	var cp2 = corridor_anchor+Vector2i(which_side)
+	var tile_below := Vector2i(abs(which_side[1]), abs(which_side[0]))
+	var cp3 = corridor_anchor+tile_below
+	var cp4 = cp2+tile_below
 	
-	tiles.set_cell(corridor_pos, 1, TILE_DICT['mm'])
-	tiles.set_cell(cp2, 1, TILE_DICT['mm'])
+	# Giant code to select the correct tiles
+	var tile_order = []
+	var alt_tile_order = []
+	if which_side==Vector2i(1, 0):
+		tile_order = [atlas['c1'], atlas['c1'], atlas['c2'], atlas['c2']]
+		alt_tile_order = [0,1,0,1]
+	elif which_side==Vector2i(-1, 0):
+		tile_order = [atlas['c1'], atlas['c1'], atlas['c2'], atlas['c2']]
+		alt_tile_order = [1,0,1,0]
+	elif which_side==Vector2i(0, -1):
+		tile_order = [atlas['c1'], atlas['c2'], atlas['c1'], atlas['c2']]
+		alt_tile_order = [1,1,0,0]
+	elif which_side==Vector2i(0,1):
+		tile_order = [atlas['c2'], atlas['c1'], atlas['c2'], atlas['c1']]
+		alt_tile_order = [1,1,0,0]
+	tiles.set_cell(corridor_anchor, 0, tile_order[0], alt_tile_order[0])
+	tiles.set_cell(cp2, 0, tile_order[1], alt_tile_order[1])
+	tiles.set_cell(cp3, 0, tile_order[2], alt_tile_order[2])
+	tiles.set_cell(cp4, 0, tile_order[3], alt_tile_order[3])
 	
 func add_mushrooms(coord_upperleft, room_width, room_height, types=['EMBIGGEN']):
 	for i in range(types.size()):
