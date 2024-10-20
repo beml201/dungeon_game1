@@ -23,8 +23,12 @@ func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	velocity = input_direction * speed
 	if velocity != Vector2(0,0):
-		get_node("AnimationPlayer").play("walking")
-	else:
+		if Global.player_current_attack == true:
+			get_node("AnimationPlayer").play("walking-slash")
+			#$attack_duration.start()
+		else:
+			get_node("AnimationPlayer").play("walking")
+	elif Global.player_current_attack == false:
 		get_node("AnimationPlayer").stop()
 	
 func _physics_process(delta):
@@ -41,9 +45,9 @@ func _input(event):
 	if event is InputEventMouseButton and Global.player_can_attack:
 		Global.player_current_attack = true
 		Global.player_can_attack = false
-		print("attacking")
 		get_node("AnimationPlayer").play("slash")
-		$attack_duration.start()
+		print("attacking")
+		#$attack_duration.start()
 		
 #func attack():
 	#if Input.is_action_just_pressed("attack"):
@@ -76,4 +80,14 @@ func _on_attack_cooldown_timeout() -> void:
 func _on_attack_duration_timeout() -> void:
 	Global.player_current_attack = false
 	Global.player_can_attack = true 
+	#get_node("AnimationPlayer").play("walking")
 	#print("not attacking")
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "slash" or anim_name == "walking-slash":
+		Global.player_current_attack = false
+		Global.player_can_attack = true 
+		print("player_can_attack")
+	else:
+		return
