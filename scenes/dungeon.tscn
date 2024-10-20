@@ -1,30 +1,50 @@
-[gd_scene load_steps=6 format=3 uid="uid://cku3o44upqqkh"]
+[gd_scene load_steps=8 format=3 uid="uid://cku3o44upqqkh"]
 
 [ext_resource type="Script" path="res://scripts/dungeon.gd" id="1_aiwhc"]
+[ext_resource type="Texture2D" uid="uid://cqiatxnjmcrq6" path="res://assets/tile grid 4.png" id="2_hkg5a"]
 [ext_resource type="Texture2D" uid="uid://bqmlpctednd8q" path="res://assets/tile grid 2.png" id="2_s3hbs"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cdsu0"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2j48o"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1bjk8"]
+texture = ExtResource("2_hkg5a")
+margins = Vector2i(80, 24)
+separation = Vector2i(0, 14)
+texture_region_size = Vector2i(64, 64)
+3:0/next_alternative_id = 2
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 32, -8, 32, 4, 32, 8, -8, 8, -8, -32, 8, -32)
+3:0/1 = 1
+3:0/1/flip_h = true
+3:0/1/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -8, -32, 4, -32, 8, -32, 8, 8, -32, 8, -32, -8)
+3:1/next_alternative_id = 2
+3:1/0 = 0
+3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 8, 8, 32, -4, 32, -8, 32, -8, -8, 32, -8, 32, 8)
+3:1/1 = 1
+3:1/1/flip_h = true
+3:1/1/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, -32, 8, -32, -4, -32, -8, 8, -8, 8, 32, -8, 32)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nthdy"]
 texture = ExtResource("2_s3hbs")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
-0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 8, 8, 32, -8, 32, -8, -8, 32, -8, 32, 8)
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 8, 8, 32, -4, 32, -8, 32, -8, -8, 32, -8, 32, 8)
 1:0/0 = 0
-1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -8, -32, -8, 32, -8, 32, 8, -32, 8)
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -8, 32, -8, 32, 8, -32, 8)
 2:0/0 = 0
-2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, -32, 8, -32, -8, 8, -8, 8, 32, -8, 32)
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, -32, 8, -32, -4, -32, -8, 8, -8, 8, 32, -8, 32)
+0:1/next_alternative_id = 3
 0:1/0 = 0
-0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 32, 8, 32, 8, -32, -8, -32, -8, 32)
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 32, -8, -32, 8, -32, 8, 32)
 1:1/0 = 0
 2:1/0 = 0
-2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 32, -8, 32, -8, -32, 8, -32, 8, 32)
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -32, 8, 32, -8, 32, -8, -32)
 0:2/0 = 0
-0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 32, -8, 32, 8, -8, 8, -8, -32, 8, -32)
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 32, -8, 32, 4, 32, 8, -8, 8, -8, -32, 8, -32)
 1:2/0 = 0
-1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -8, -32, -8, 32, -8, 32, 8, -32, 8)
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(32, 8, -32, 8, -32, -8, 32, -8)
 2:2/0 = 0
-2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -8, -32, 8, -32, 8, 8, -32, 8, -32, -8)
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -8, -32, 4, -32, 8, -32, 8, 8, -32, 8, -32, -8)
 
 [sub_resource type="TileSet" id="TileSet_wdlpo"]
 tile_size = Vector2i(64, 64)
@@ -33,7 +53,8 @@ physics_layer_0/physics_material = SubResource("PhysicsMaterial_cdsu0")
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "bitMask"
 terrain_set_0/terrain_0/color = Color(0.418871, 0.973965, 0, 1)
-sources/1 = SubResource("TileSetAtlasSource_2j48o")
+sources/0 = SubResource("TileSetAtlasSource_1bjk8")
+sources/1 = SubResource("TileSetAtlasSource_nthdy")
 
 [node name="Dungeon" type="Node2D"]
 script = ExtResource("1_aiwhc")
