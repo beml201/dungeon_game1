@@ -12,7 +12,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_view_body_entered(body: Node2D) -> void:
 	if body.name=="sam":
-		$TextBox/Label.text = "A shroom"
+		$TextBox/Label.text = "a shroom of embiggening"
 		$TextBox.show()
 		in_range = true
 	else:
