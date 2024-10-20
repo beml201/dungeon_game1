@@ -16,6 +16,8 @@ func _ready() -> void:
 func _on_spritechange():
 	print("spirtechage2!")
 	$Sprite2D.texture = load("res://assets/animations/lil dude walking.png")
+	$Arm.show()
+
 	
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
