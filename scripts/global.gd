@@ -14,8 +14,10 @@ var player_current_attack = false
 var player_can_attack = true
 var dungeons_finished := 0
 var player_can_upgrade = true
+var rooms_spawned = 0
 
 # Public calls
 signal player_attack
 signal mob_attack
 signal magic_mushroom
+signal create_enemies
