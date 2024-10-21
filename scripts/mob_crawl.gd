@@ -20,7 +20,7 @@ func _ready():
 	Global.connect("player_attack", _take_damage)
 
 func _physics_process(delta):
-	deal_with_damage()
+	attack()
 	if player_chase:
 		get_node ("AnimationPlayer").play("crawl")
 		velocity = player.global_position - global_position
@@ -28,8 +28,10 @@ func _physics_process(delta):
 		move_and_slide()
 		if velocity[0]>0:
 			mob_direction = "right"
+			$body.position.x = -6
 		elif velocity[0]<0:
 			mob_direction = "left"
+			$body.position.x = 7
 			
 func _take_damage(damage):
 	if in_range and Global.player_direction!=mob_direction:
@@ -41,6 +43,7 @@ func _take_damage(damage):
 func attack():
 	if in_range and not is_attacking:
 		is_attacking = true
+		print("crawler attacking")
 		Global.mob_attack.emit(strength)
 		await get_tree().create_timer(attack_speed).timeout
 		is_attacking = false
