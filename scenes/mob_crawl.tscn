@@ -1,0 +1,97 @@
+[gd_scene load_steps=9 format=3 uid="uid://d0ijqca4ino1s"]
+
+[ext_resource type="Texture2D" uid="uid://rsjsp8ntfqob" path="res://assets/animations/monster1.png" id="1_x6wcq"]
+[ext_resource type="Script" path="res://scripts/mob_crawl.gd" id="1_xef8k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_twcpo"]
+size = Vector2(54, 37)
+
+[sub_resource type="Animation" id="Animation_kppjw"]
+resource_name = "crawl"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.333333, 0.666667, 1, 1.33333, 1.63333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [4, 1, 2, 3, 0, 4]
+}
+
+[sub_resource type="Animation" id="Animation_rjwq4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_85xor"]
+_data = {
+"RESET": SubResource("Animation_rjwq4"),
+"crawl": SubResource("Animation_kppjw")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5wfa1"]
+radius = 151.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ls8o"]
+size = Vector2(59, 38)
+
+[node name="mob_crawl" type="CharacterBody2D"]
+script = ExtResource("1_xef8k")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_x6wcq")
+hframes = 5
+
+[node name="body" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 4.5)
+shape = SubResource("RectangleShape2D_twcpo")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../body")
+libraries = {
+"": SubResource("AnimationLibrary_85xor")
+}
+
+[node name="view" type="Area2D" parent="."]
+
+[node name="view_area" type="CollisionShape2D" parent="view"]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_5wfa1")
+
+[node name="enemy_hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
+position = Vector2(-1.5, 4)
+shape = SubResource("RectangleShape2D_6ls8o")
+
+[node name="attack_cooldown" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="HealthLabel" type="Label" parent="."]
+offset_left = -43.0
+offset_top = 19.0
+offset_right = 45.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0.819608, 0, 0, 1)
+theme_override_font_sizes/font_size = 15
+text = "Health: 100"
+
+[connection signal="body_entered" from="view" to="." method="_on_view_body_entered"]
+[connection signal="body_exited" from="view" to="." method="_on_view_body_exited"]
+[connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]
+[connection signal="body_exited" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_exited"]
+[connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]
