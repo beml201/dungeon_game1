@@ -10,6 +10,7 @@ const tilesize = 16
 ##Mobs
 const Slime = preload("res://scenes/mob_slime.tscn")
 const Crawler = preload("res://scenes/mob_crawl.tscn")
+const Arms = preload("res://scenes/mob_arms.tscn")
 const Phantom = preload("res://scenes/mob_phantom.tscn")
 ##Other
 const Mush = preload("res://scenes/mushroom.tscn")
@@ -32,13 +33,15 @@ func _process(delta):
 	pass
 
 func add_enemies(difficulty,room_corners):
-	var enemy_types = [Phantom]
+	var enemy_types = [Slime]
 	var room_corner := Vector2i(room_corners[Global.rooms_spawned][0],room_corners[Global.rooms_spawned][1])
 	var enemies = 2
-	print(room_corners)
+	
 	if len(difficulty) > 1:
 		enemies = randi()%3 + 2
 		enemy_types.append(Crawler)
+		enemy_types.append(Arms)
+		enemy_types.append(Phantom)
 		
 	print(room_corner)
 	for i in range(0,enemies):
