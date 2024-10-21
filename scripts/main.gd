@@ -11,6 +11,7 @@ const tilesize = 16
 const Slime = preload("res://scenes/mob_slime.tscn")
 const Crawler = preload("res://scenes/mob_crawl.tscn")
 const Arms = preload("res://scenes/mob_arms.tscn")
+const Legs = preload("res://scenes/mob_legs.tscn")
 const Phantom = preload("res://scenes/mob_phantom.tscn")
 ##Other
 const Mush = preload("res://scenes/mushroom.tscn")
@@ -41,6 +42,7 @@ func add_enemies(difficulty,room_corners):
 		enemies = randi()%3 + 2
 		enemy_types.append(Crawler)
 		enemy_types.append(Arms)
+		enemy_types.append(Legs)
 		enemy_types.append(Phantom)
 		
 	print(room_corner)
