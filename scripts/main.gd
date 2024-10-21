@@ -7,9 +7,12 @@ const Dungeon = preload("res://scenes/dungeon.tscn")
 @onready var dungeon = Dungeon.instantiate()
 const tilesize = 16
 # Preload multiple use objects
+##Mobs
 const Slime = preload("res://scenes/mob_slime.tscn")
-const Mush = preload("res://scenes/mushroom.tscn")
 const Crawler = preload("res://scenes/mob_crawl.tscn")
+const Phantom = preload("res://scenes/mob_phantom.tscn")
+##Other
+const Mush = preload("res://scenes/mushroom.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Global.connect("create_enemies", add_enemies)
@@ -29,7 +32,7 @@ func _process(delta):
 	pass
 
 func add_enemies(difficulty,room_corners):
-	var enemy_types = [Slime]
+	var enemy_types = [Phantom]
 	var room_corner := Vector2i(room_corners[Global.rooms_spawned][0],room_corners[Global.rooms_spawned][1])
 	var enemies = 2
 	print(room_corners)
