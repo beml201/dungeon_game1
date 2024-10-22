@@ -41,7 +41,7 @@ func _physics_process(delta):
 		CHASE: # Chase Player
 			chase()
 			$AnimationPlayer.play("attack")
-		ATTACK: # Attack Plater
+		ATTACK: # Attack Player
 			attack()
 			$AnimationPlayer.play("attack")
 		DAMAGED: # Taking Damage
