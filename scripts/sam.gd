@@ -94,8 +94,8 @@ func _physics_process(delta):
 func _input(event):
 	if event.is_action("attack") and not is_attacking:
 		is_attacking = true
-		Global.player_attack.emit(strength)
 		$Basic_Animations.play("walking-slash")
+		Global.player_attack.emit(strength)
 		#print('attack')
 	#if event is InputEventMouseButton and Global.player_can_attack:
 		#Global.player_current_attack = true

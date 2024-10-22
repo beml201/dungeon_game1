@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cbrm1u773r5uw"]
+[gd_scene load_steps=24 format=3 uid="uid://cbrm1u773r5uw"]
 
 [ext_resource type="Script" path="res://scripts/sam.gd" id="1_s1nh6"]
 [ext_resource type="Texture2D" uid="uid://d1gqyi6xkojic" path="res://assets/animations/lil dude smol walking.png" id="2_fetyd"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://elbhnxur1kgr" path="res://assets/animations/dude big arm static 4fr.png" id="4_q2gbx"]
 [ext_resource type="Texture2D" uid="uid://c411r3xw05if7" path="res://assets/animations/lil dude eye.png" id="5_u7kex"]
 [ext_resource type="Texture2D" uid="uid://c2lwgodbovln4" path="res://assets/animations/lil dude walking.png" id="6_0dgii"]
+[ext_resource type="Script" path="res://scenes/sword_hit.gd" id="6_tsj6v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yr0cg"]
 size = Vector2(27, 24)
@@ -107,7 +108,7 @@ tracks/1/path = NodePath("Sprite2D/SwordHit/sword:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.133333, 0.266667),
+"times": PackedFloat32Array(0.1, 0.266667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -263,6 +264,7 @@ region_rect = Rect2(0.005, 0, 256, 64)
 metadata/_edit_group_ = true
 
 [node name="SwordHit" type="Area2D" parent="Sprite2D"]
+script = ExtResource("6_tsj6v")
 
 [node name="sword" type="CollisionShape2D" parent="Sprite2D/SwordHit"]
 position = Vector2(9, 6)
