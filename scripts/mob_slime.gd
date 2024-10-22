@@ -39,7 +39,7 @@ func _physics_process(delta):
 			chase()
 		ATTACK:
 			attack()
-	$AnimationPlayer.play("jump")
+	get_node ("AnimationPlayer").play("jump")
 
 	#deal_with_damage()
 
@@ -67,7 +67,7 @@ func move():
 		mob_direction = "left"
 
 func _take_damage(damage):
-	if check_for_damage:
+	if check_for_damage and Global.player_direction!=mob_direction:
 		health -= damage
 		$HealthLabel.text = "Health: "+str(max(0,health))
 		check_for_damage = false

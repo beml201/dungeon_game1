@@ -1,86 +1,51 @@
 extends CharacterBody2D
 
+
 # MetaData
 var speed = 100 +randi()%20
 var health := 100
 var strength := 1
 var attack_speed := 1.0
-enum {
-	IDLE,
-	NEW_DIR,
-	WALK,
-	CHASE,
-	ATTACK
-}
+
 # Other variables
-#var player_chase = false
 var player = null
+var player_chase = false
 var is_attacking = false
-var check_for_damage = false
+var in_range = false
 var player_attack_cooldown
 var mob_direction = "right"
-var current_state = IDLE
-var dir = Vector2.LEFT
 #var player_current_attack = false
 
 func _ready():
-	randomize()
 	Global.connect("player_attack", _take_damage)
 
 func _physics_process(delta):
-	match current_state:
-		IDLE:
-			pass
-		NEW_DIR:
-			dir = choose([Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN])
-		WALK:
-			walk()
-		CHASE:
-			chase()
-		ATTACK:
-			attack()
-	
-
-	#deal_with_damage()
-
-func walk():
-	velocity = dir * speed
-	move()
-
-func chase():
-	velocity = player.global_position - global_position
-	move()
+	attack()
+	if player_chase:
+		get_node ("AnimationPlayer").play("crawl")
+		velocity = player.global_position - global_position
+		$Sprite2D.flip_h = sign(velocity[0])==-1
+		move_and_slide()
+		if velocity[0]>0:
+			mob_direction = "right"
+			$body.position.x = -6
+		elif velocity[0]<0:
+			mob_direction = "left"
+			$body.position.x = 7
+			
+func _take_damage(damage):
+	if in_range and Global.player_direction!=mob_direction:
+		health -= damage
+		$HealthLabel.text = "Health: "+str(max(0,health))
+		if health<=0:
+			queue_free()
 
 func attack():
-	if not is_attacking:
+	if in_range and not is_attacking:
 		is_attacking = true
 		Global.mob_attack.emit(strength)
 		await get_tree().create_timer(attack_speed).timeout
 		is_attacking = false
-
-func move():
-	$AnimationPlayer.play("crawl")
-	$Sprite2D.flip_h = sign(velocity[0])==-1
-	move_and_slide()
-	if velocity[0]>0:
-		mob_direction = "right"
-		$body.position.x = -8
-	elif velocity[0]<0:
-		mob_direction = "left"
-		$body.position.x = 8
-
-func _take_damage(damage):
-	if check_for_damage:
-		health -= damage
-		$HealthLabel.text = "Health: "+str(max(0,health))
-		check_for_damage = false
-		if health<=0:
-			queue_free()
-		
-func choose(array):
-	array.shuffle()
-	return array.front()
-
 
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
@@ -89,44 +54,24 @@ func get_input():
 func _on_view_body_entered(body):
 	if body.has_method("player"):
 		player = body
-		current_state = CHASE
-		$idle.paused = true
+		player_chase = true
 #	print("chasing")
 	
 func _on_view_body_exited(body):
 	if body.has_method("player"):
 		player = null
-		current_state = IDLE
-		$idle.paused = false
+		player_chase = false
 
 func _on_enemy_hitbox_body_entered(body):
 	if body.has_method("player"):
-		current_state = ATTACK
-	
+		in_range = true
 
 func _on_enemy_hitbox_body_exited(body):
 	if body.has_method("player"):
-		current_state = CHASE
+		in_range = false
 		
-
-func _on_idle_timeout():
-	$idle.wait_time = choose([0.5, 1, 1.5])
-	current_state = choose([IDLE, NEW_DIR, WALK])
-
-
-func _on_enemy_hitbox_area_entered(area):
-	if area.has_method("sword"):
-		check_for_damage = true
-
-
-
-
-
-
-
-
 func deal_with_damage():
-	if check_for_damage and Global.player_current_attack and Global.player_direction!=mob_direction:
+	if in_range and Global.player_current_attack and Global.player_direction!=mob_direction:
 		#health -= 20
 		player_attack_cooldown = false
 		$attack_cooldown.start()

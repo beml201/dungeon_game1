@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dg6qxhpu0wb2v"]
+[gd_scene load_steps=10 format=3 uid="uid://dg6qxhpu0wb2v"]
 
 [ext_resource type="Script" path="res://scripts/mob_arms.gd" id="1_oy2ou"]
 [ext_resource type="Texture2D" uid="uid://b4icr7wwmwuna" path="res://assets/animations/arm monster.png" id="2_k2v7f"]
@@ -54,27 +54,11 @@ tracks/0/keys = {
 "values": [0, 6, 0]
 }
 
-[sub_resource type="Animation" id="Animation_0y1vs"]
-resource_name = "walk"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.166667, 0.333333, 0.5, 0.666667, 0.833333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dgrj1"]
 _data = {
 "RESET": SubResource("Animation_wr40a"),
 "attack": SubResource("Animation_oc42a"),
-"damaged": SubResource("Animation_35ix1"),
-"walk": SubResource("Animation_0y1vs")
+"damaged": SubResource("Animation_35ix1")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p3hlt"]
@@ -113,10 +97,6 @@ shape = SubResource("RectangleShape2D_3tafs")
 
 [node name="attack_cooldown" type="Timer" parent="."]
 
-[node name="idle" type="Timer" parent="."]
-wait_time = 0.15
-autostart = true
-
 [node name="HealthLabel" type="Label" parent="."]
 offset_left = -36.0
 offset_top = 25.0
@@ -133,4 +113,3 @@ metadata/_edit_use_anchors_ = true
 [connection signal="body_entered" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_entered"]
 [connection signal="body_exited" from="enemy_hitbox" to="." method="_on_enemy_hitbox_body_exited"]
 [connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]
-[connection signal="timeout" from="idle" to="." method="_on_idle_timeout"]

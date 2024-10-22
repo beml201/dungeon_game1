@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://elbhnxur1kgr" path="res://assets/animations/dude big arm static 4fr.png" id="4_q2gbx"]
 [ext_resource type="Texture2D" uid="uid://c411r3xw05if7" path="res://assets/animations/lil dude eye.png" id="5_u7kex"]
 [ext_resource type="Texture2D" uid="uid://c2lwgodbovln4" path="res://assets/animations/lil dude walking.png" id="6_0dgii"]
-[ext_resource type="Script" path="res://scripts/sword_hit.gd" id="6_tsj6v"]
+[ext_resource type="Script" path="res://scenes/sword_hit.gd" id="6_tsj6v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yr0cg"]
 size = Vector2(27, 24)
