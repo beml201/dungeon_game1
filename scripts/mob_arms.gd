@@ -5,12 +5,14 @@ var speed = 100 +randi()%20
 var health := 100
 var strength := 1
 var attack_speed := 1.0
+# Finite state machine to track current state
 enum {
 	IDLE,
 	NEW_DIR,
 	WALK,
 	CHASE,
-	ATTACK
+	ATTACK,
+	DAMAGED
 }
 # Other variables
 var player = null
@@ -28,17 +30,23 @@ func _ready():
 	Global.connect("player_attack", _take_damage)
 
 func _physics_process(delta):
+	# Finite state machine changes state depending on conditions
 	match current_state:
-		IDLE:
+		IDLE: # Do Nothing
 			pass
-		NEW_DIR:
+		NEW_DIR: # Pick a new direction to walk
 			dir = choose([Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN])
-		WALK:
+		WALK: # Idle walk
 			walk()
-		CHASE:
+		CHASE: # Chase Player
 			chase()
-		ATTACK:
+			$AnimationPlayer.play("attack")
+		ATTACK: # Attack Plater
 			attack()
+			$AnimationPlayer.play("attack")
+		DAMAGED: # Taking Damage
+			$AnimationPlayer.play("damaged")
+			
 	#deal_with_damage()
 
 func walk():
@@ -48,7 +56,6 @@ func walk():
 
 func chase():
 	velocity = player.global_position - global_position
-	$AnimationPlayer.play("attack")
 	move()
 
 func attack():
@@ -68,13 +75,14 @@ func move():
 
 func _take_damage(damage):
 	if check_for_damage:
-		$AnimationPlayer.play("damaged")
+		current_state = DAMAGED
 		health -= damage
 		$HealthLabel.text = "Health: "+str(max(0,health))
 		check_for_damage = false
 		if health<=0:
 			queue_free()
 
+# Picks random value from array
 func choose(array):
 	array.shuffle()
 	return array.front()
@@ -85,7 +93,6 @@ func get_input():
 
 func _on_view_body_entered(body):
 	if body.has_method("player"):
-		$AnimationPlayer.play("attack")
 		player = body
 		current_state = CHASE
 		$idle.paused = true
@@ -105,6 +112,7 @@ func _on_enemy_hitbox_body_exited(body):
 	if body.has_method("player"):
 		current_state = CHASE
 
+# After 0.15 seconds, choose new state
 func _on_idle_timeout():
 	$idle.wait_time = choose([0.5, 1, 1.5])
 	current_state = choose([IDLE, NEW_DIR, WALK])
@@ -113,7 +121,11 @@ func _on_enemy_hitbox_area_entered(area):
 	if area.has_method("sword"):
 		check_for_damage = true
 
-
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "damaged":
+		current_state = CHASE
+	else:
+		pass
 
 
 

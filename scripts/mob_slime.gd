@@ -5,6 +5,7 @@ var speed = 100 +randi()%20
 var health := 100
 var strength := 1
 var attack_speed := 1.0
+# Finite state machine to track current state
 enum {
 	IDLE,
 	NEW_DIR,
@@ -29,15 +30,15 @@ func _ready():
 
 func _physics_process(delta):
 	match current_state:
-		IDLE:
+		IDLE: # Do Nothing
 			pass
-		NEW_DIR:
+		NEW_DIR: # Pick a new direction to walk
 			dir = choose([Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN])
-		WALK:
+		WALK: # Idle walk
 			walk()
-		CHASE:
+		CHASE: # Chase Player
 			chase()
-		ATTACK:
+		ATTACK: # Attack Player
 			attack()
 	$AnimationPlayer.play("jump")
 
@@ -73,7 +74,8 @@ func _take_damage(damage):
 		check_for_damage = false
 		if health<=0:
 			queue_free()
-		
+
+# Picks random value from array
 func choose(array):
 	array.shuffle()
 	return array.front()
@@ -106,6 +108,7 @@ func _on_enemy_hitbox_body_exited(body):
 		current_state = CHASE
 		
 
+# After 0.15 seconds, choose new state
 func _on_idle_timeout():
 	$idle.wait_time = choose([0.5, 1, 1.5])
 	current_state = choose([IDLE, NEW_DIR, WALK])

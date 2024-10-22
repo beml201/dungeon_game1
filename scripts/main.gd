@@ -35,7 +35,7 @@ func _process(delta):
 	pass
 
 func add_enemies(difficulty,room_corners):
-	var enemy_types = [Arms]
+	var enemy_types = [Slime]
 	var room_corner := Vector2i(room_corners[Global.rooms_spawned][0],room_corners[Global.rooms_spawned][1])
 	var enemies = 2
 	
