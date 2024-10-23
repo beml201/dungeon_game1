@@ -42,9 +42,9 @@ func add_enemies(difficulty,room_corners):
 	if len(difficulty) > 1:
 		enemies = randi()%3 + 2
 		enemy_types.append(Crawler)
-		enemy_types.append(Arms)
-		enemy_types.append(Legs)
-		enemy_types.append(Slug)
+		#enemy_types.append(Arms)
+		#enemy_types.append(Legs)
+		#enemy_types.append(Slug)
 		enemy_types.append(Phantom)
 		
 	print(room_corner)

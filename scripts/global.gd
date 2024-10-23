@@ -2,7 +2,7 @@ extends Node
 
 # Static MetaData
 const TILE_SIZE := 64
-const UPGRADE_OPTIONS := ['EMBIGGEN', 'ENLARGEN']
+const UPGRADE_OPTIONS := ['EMBIGGEN', 'ENARMEN']
 const BASE_TILE_DICT := {
 	"ul":Vector2i(0,0), "ml":Vector2i(0,1), "bl":Vector2i(0,2),
 	"um":Vector2i(1,0), "mm":Vector2i(1,1), "bm":Vector2i(1,2),

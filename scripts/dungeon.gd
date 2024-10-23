@@ -31,7 +31,7 @@ func _ready():
 		# Add the mushrooms
 		var mushroom_types := []
 		if first_room:
-			mushroom_types = [Global.UPGRADE_OPTIONS[0], Global.UPGRADE_OPTIONS[0]]
+			mushroom_types = [Global.UPGRADE_OPTIONS[0], Global.UPGRADE_OPTIONS[1]]
 			first_room = false
 		else:
 			mushroom_types = [Global.UPGRADE_OPTIONS.pick_random(), Global.UPGRADE_OPTIONS.pick_random()]
@@ -91,6 +91,8 @@ func generate_room_order() -> Array:
 	return [rooms, direction_history]
 	
 func draw_corridor(n_events):
+	if n_events >= generated_rooms[1].size():
+		return
 	# Create corridor from new room to old room
 	var which_side = generated_rooms[1][n_events]*Vector2i(-1,-1)
 	# Navigate the corridor to the correct position
