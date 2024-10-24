@@ -89,14 +89,14 @@ func _on_view_body_entered(body):
 	if body.has_method("player"):
 		player = body
 		current_state = CHASE
-		#$idle.paused = true
+		$idle.paused = true
 #	print("chasing")
 	
 func _on_view_body_exited(body):
 	if body.has_method("player"):
 		player = null
 		current_state = IDLE
-		#$idle.paused = false
+		$idle.paused = false
 
 func _on_enemy_hitbox_body_entered(body):
 	if body.has_method("player"):
@@ -109,9 +109,9 @@ func _on_enemy_hitbox_body_exited(body):
 		
 
 # After 0.15 seconds, choose new state
-#func _on_idle_timeout():
-	#$idle.wait_time = choose([0.5, 1, 1.5])
-	#current_state = choose([IDLE, NEW_DIR, WALK])
+func _on_idle_timeout():
+	$idle.wait_time = choose([0.5, 1, 1.5])
+	current_state = choose([IDLE, NEW_DIR, WALK])
 
 
 func _on_enemy_hitbox_area_entered(area):
