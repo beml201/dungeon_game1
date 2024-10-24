@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bdyg4g6cg36bj"]
+[gd_scene load_steps=9 format=3 uid="uid://d0ijqca4ino1s"]
 
 [ext_resource type="Texture2D" uid="uid://rsjsp8ntfqob" path="res://assets/animations/monster1.png" id="1_x6wcq"]
 [ext_resource type="Script" path="res://scripts/mob_crawl.gd" id="1_xef8k"]

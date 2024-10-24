@@ -22,6 +22,7 @@ func _ready():
 	add_child(dungeon)
 	player.global_position = Vector2i(5*tilesize,5*tilesize)	
 	add_child(player)
+	$Background_music.play()
 	
 	#var player_current_attack = false
 	var start = [Vector2i(0,0), Vector2i(0,0)]
