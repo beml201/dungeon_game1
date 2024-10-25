@@ -14,6 +14,9 @@ var is_big = false
 var is_attacking = false
 var animation_melee = null
 var animation_walk = null
+var animation_shoot = null
+const Projectile = preload("res://scenes/projectile.tscn")
+
 #var player_current_attack = false
 #@onready var SpriteChange = load("res://scenes/mushroom.tscn").instantiate()
 func _ready() -> void:
@@ -23,7 +26,7 @@ func _ready() -> void:
 	#_load_small_sam()
 	animation_melee = $Basic_Animations
 	animation_walk = $Basic_Animations
-
+	
 #func _load_small_sam():
 #	$body.shape = $SamSmall/CollisionShape2D.shape
 	#$body.position = $SamSmall/CollisionShape2D.position
@@ -44,6 +47,11 @@ func _load_arm():
 	animation_melee = $Arm/Arm_Animations
 	strength += 20
 	$SamEmbiggened/Sprite2D.texture = load("res://assets/animations/lil dude ahhh my arm.png")
+	
+func _load_eye():
+	$Eye.show()
+	
+
 	
 func _take_damage(damage):
 	health -= damage
@@ -136,6 +144,14 @@ func _input(event):
 		#$Basic_Animations.play("walking-slash")
 		animation_melee.play("slash")
 		Global.player_attack.emit(strength)
+		
+	if event.is_action("shoot") and not is_attacking:
+		is_attacking = true
+		var projectile = Projectile.instantiate()
+		projectile.global_position = $Eye.global_position
+		get_parent().add_child(projectile)
+		await get_tree().create_timer(0.1).timeout
+		is_attacking = false 
 		#print('attack')
 	#if event is InputEventMouseButton and Global.player_can_attack:
 		#Global.player_current_attack = true

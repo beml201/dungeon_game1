@@ -204,6 +204,61 @@ _data = {
 "static": SubResource("Animation_47k0u")
 }
 
+[sub_resource type="Animation" id="Animation_xlysp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Eye/Eye:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_epbmo"]
+resource_name = "attack"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Eye/Eye:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.233333, 0.333333, 0.4, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 2, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_ukogc"]
+resource_name = "static"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Eye/Eye:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ngt45"]
+_data = {
+"RESET": SubResource("Animation_xlysp"),
+"attack": SubResource("Animation_epbmo"),
+"static": SubResource("Animation_ukogc")
+}
+
 [sub_resource type="Animation" id="Animation_jibnj"]
 length = 0.001
 tracks/0/type = "value"
@@ -310,60 +365,6 @@ _data = {
 "slash": SubResource("Animation_1jj8w"),
 "walking": SubResource("Animation_06lmu"),
 "walking-slash": SubResource("Animation_mc3fb")
-}
-
-[sub_resource type="Animation" id="Animation_xlysp"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Eye:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="Animation" id="Animation_epbmo"]
-resource_name = "attack"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Eye:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.233333, 0.333333, 0.4, 0.466667),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 2, 1, 0]
-}
-
-[sub_resource type="Animation" id="Animation_ukogc"]
-resource_name = "static"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Eye:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.466667),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 1, 0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_ngt45"]
-_data = {
-"RESET": SubResource("Animation_xlysp"),
-"attack": SubResource("Animation_epbmo"),
-"static": SubResource("Animation_ukogc")
 }
 
 [node name="sam" type="CharacterBody2D"]
@@ -476,19 +477,23 @@ libraries = {
 "": SubResource("AnimationLibrary_tdy6o")
 }
 
-[node name="Eye" type="Sprite2D" parent="."]
-visible = false
+[node name="Eye" type="Area2D" parent="."]
+
+[node name="Eye" type="Sprite2D" parent="Eye"]
+position = Vector2(13, 0)
 texture = ExtResource("5_u7kex")
 hframes = 4
+
+[node name="Eye_Animations" type="AnimationPlayer" parent="Eye"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_ngt45")
+}
+autoplay = "static"
 
 [node name="Basic_Animations" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_q2h2c")
-}
-
-[node name="Eye_Animations" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_ngt45")
 }
 
 [node name="Camera2D" type="Camera2D" parent="."]
