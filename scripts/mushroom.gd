@@ -10,13 +10,23 @@ var default_text = "A shroom of embiggening"
 
 func _ready():
 	Global.connect("player_attack", _player_interact)
-	if mushroom_type=="EMBIGGEN":
-		default_text = "A shroom of embiggening"
-		$Sprite2D.texture = load("res://assets/mush in cage.png")
-	elif mushroom_type=="ENARMEN":
-		default_text = "a shroom of enstrengthening"
-		$Sprite2D.texture = load("res://assets/green mush in cage.png")
-	$Sprite2D/Label.text = default_text
+	match mushroom_type:
+		"EMBIGGEN":
+			default_text = "A shroom of embiggening"
+			$Sprite2D.texture = load("res://assets/mush in cage.png")
+		"ENLARGEN":
+			default_text = "A shroom of enlargening"
+			$Sprite2D.texture = load("res://assets/mush in cage.png")
+		"ENARMEN":
+			default_text = "a shroom of enstrengthening"
+			$Sprite2D.texture = load("res://assets/green mush in cage.png")
+		"ENSEEEN":
+			default_text = "a shroom of enseeening"
+			$Sprite2D.texture = load("res://assets/green mush in cage.png")
+		"ENLIGHTEN":
+			default_text = "a shroom of enlightening"
+			$Sprite2D.texture = load("res://assets/green mush in cage.png")
+	$TextBox/Label.text = default_text
 		
 func _physics_process(delta: float) -> void:
 	pass

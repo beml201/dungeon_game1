@@ -5,14 +5,10 @@ var speed = 100 +randi()%20
 var health := 100
 var strength := 1
 var attack_speed := 1.0
+var knockback_time := 0.3
+var stun := 0.2
 # Finite state machine to track current state
-enum {
-	IDLE,
-	NEW_DIR,
-	WALK,
-	CHASE,
-	ATTACK
-}
+enum { IDLE, NEW_DIR, WALK, CHASE, ATTACK, KNOCKBACK }
 # Other variables
 #var player_chase = false
 var player = null
@@ -40,6 +36,8 @@ func _physics_process(delta):
 			chase()
 		ATTACK: # Attack Player
 			attack()
+		KNOCKBACK:
+			knockback()
 	$AnimationPlayer.play("jump")
 
 	#deal_with_damage()
@@ -49,7 +47,7 @@ func walk():
 	move()
 
 func chase():
-	velocity = player.global_position - global_position
+	velocity = speed*(player.global_position - global_position).normalized()
 	move()
 
 func attack():
@@ -67,14 +65,36 @@ func move():
 	elif velocity[0]<0:
 		mob_direction = "left"
 
+func knockback():
+	velocity.x = int(mob_direction=="right")*2-1
+	velocity.x *= -1
+	velocity.y = randf_range(-0.1, 0.1)
+	velocity *= 2*speed
+	move_and_slide()
+
+func damage_visual(n_flashes=3):
+	for i in range(2*n_flashes):
+		var time = knockback_time/(2*n_flashes)
+		await get_tree().create_timer(time).timeout
+		if i%2==0:
+			$Sprite2D.set_modulate(Color(1,0.2,0.2))
+		else:
+			$Sprite2D.set_modulate(Color(1,1,1))
+			
 func _take_damage(damage):
 	if check_for_damage:
+		# Knockback
+		current_state = KNOCKBACK
+		# Damage
 		health -= damage
 		$HealthLabel.text = "Health: "+str(max(0,health))
-		check_for_damage = false
 		if health<=0:
 			Global.mobs_left -= 1
 			queue_free()
+		# Allow damage to be taken again
+		check_for_damage = false
+		# Show that the mob has taken damage
+		damage_visual()
 
 # Picks random value from array
 func choose(array):
@@ -95,7 +115,7 @@ func _on_view_body_entered(body):
 	
 func _on_view_body_exited(body):
 	if body.has_method("player"):
-		player = null
+		#player = null
 		current_state = IDLE
 		$idle.paused = false
 
@@ -106,6 +126,12 @@ func _on_enemy_hitbox_body_entered(body):
 
 func _on_enemy_hitbox_body_exited(body):
 	if body.has_method("player"):
+		# Add an additional timer if there is knockback
+		if current_state==KNOCKBACK:
+			await get_tree().create_timer(knockback_time).timeout
+			current_state = IDLE
+		# Wait a bit so the player can get away
+		await get_tree().create_timer(stun).timeout
 		current_state = CHASE
 		
 

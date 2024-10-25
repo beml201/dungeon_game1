@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var speed = 100
+var speed = 400
 var player = null
 var direction = Global.player_direction
 var damage = 10
