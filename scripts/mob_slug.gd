@@ -81,6 +81,7 @@ func _take_damage(damage):
 		$HealthLabel.text = "Health: "+str(max(0,health))
 		check_for_damage = false
 		if health<=0:
+			Global.mobs_left -= 1
 			queue_free()
 
 # Picks random value from array

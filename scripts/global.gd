@@ -13,8 +13,10 @@ var player_direction = "right"
 var player_current_attack = false
 var player_can_attack = true
 var dungeons_finished := 0
-var player_can_upgrade = true
+var player_can_upgrade := false
+var key_spawned := false
 var rooms_spawned = 0
+var mobs_left := 0
 
 # Public calls
 signal player_attack

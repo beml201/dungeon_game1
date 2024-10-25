@@ -117,7 +117,7 @@ func draw_corridor(n_events):
 		alt_tile_order = [4,6,5,7]
 	for i in range(corridor_pos.size()):
 		tiles.set_cell(corridor_pos[i], 0, Vector2i(0,0), alt_tile_order[i])
-	Global.emit_signal("create_enemies",generated_rooms,room_pos_ul)
+	Global.emit_signal("create_enemies",n_events)
 	
 func add_mushrooms(coord_upperleft, room_width, room_height, types=['EMBIGGEN']):
 	for i in range(types.size()):
