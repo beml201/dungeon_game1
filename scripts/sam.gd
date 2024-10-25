@@ -82,9 +82,13 @@ func get_input():
 	if input_direction[0] < 0 and Global.player_direction=="right":
 		Global.player_direction = "left"
 		self.scale.x = -1
+		$HealthLabel.scale.x = -1
+		$HealthLabel.position.x = abs($HealthLabel.position.x)
 	if input_direction[0] > 0 and Global.player_direction=="left":
 		Global.player_direction = "right"
 		self.scale.x = -1
+		$HealthLabel.scale.x = 1
+		$HealthLabel.position.x = -1*abs($HealthLabel.position.x)
 	# Animation code
 	velocity = input_direction * speed
 	if not is_attacking:
