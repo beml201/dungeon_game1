@@ -23,6 +23,7 @@ func _on_button_pressed() -> void:
 		#	mynode.modulate.a = i/10
 	else:
 		print("Back to game...")
+		get_tree().change_scene_to_file("res://scenes/main.tscn")
 	#$RichTextLabel.show()
 	#$AnimationPlayer.play("cutscene")
 	

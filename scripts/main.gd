@@ -17,6 +17,8 @@ var enemy_order = [Slime, Crawler, Phantom]
 ##Other
 const Mush = preload("res://scenes/mushroom.tscn")
 const Key = preload("res://scenes/key.tscn")
+const Ladder = preload("res://scenes/Ladder.tscn")
+const Cutscene = preload("res://scenes/cutscene.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Global.connect("create_enemies", add_enemies)
@@ -25,6 +27,7 @@ func _ready():
 	add_child(player)
 	$Background_music.play()
 	add_enemies(0)
+	Global.connect("climb_ladder", climb_ladder)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -35,6 +38,10 @@ func add_enemies(room_number):
 	# Don't create mobs in the final dungeon
 	if room_number+1==dungeon.N_ROOMS:
 		Global.mobs_left += 1
+		var ladder = Ladder.instantiate()
+		ladder.position = dungeon.room_pos_ul[room_number] + (dungeon.ROOM_SIZE/2)
+		ladder.position *= Global.TILE_SIZE
+		add_child(ladder)
 		return
 	# Select the last enemy for the room number to generate
 	var enemies = enemy_order.slice(0, 1+min(room_number, enemy_order.size()))
@@ -57,3 +64,8 @@ func add_key(room_number):
 	key.position = dungeon.room_pos_ul[room_number] + (dungeon.ROOM_SIZE/2)
 	key.position *= Global.TILE_SIZE
 	add_child(key)
+	
+func climb_ladder():
+	#get_tree().paused = true 
+	print("you win")
+	get_tree().change_scene_to_file("res://scenes/cutscene.tscn")

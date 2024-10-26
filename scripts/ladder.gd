@@ -1,5 +1,6 @@
 extends Area2D
 
+
 const drop_height := 3*Global.TILE_SIZE
 const drop_speed := 10
 var in_range = false
@@ -19,9 +20,8 @@ func _process(delta: float) -> void:
 	
 func _player_interact(strength):
 	if in_range:
-		Global.key_spawned = false
-		Global.player_can_upgrade = true
-		queue_free()
+		Global.climb_ladder.emit()
+	
 	
 func _on_body_entered(body: Node2D) -> void:
 	if body.has_method("player"):

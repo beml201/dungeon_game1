@@ -103,7 +103,7 @@ _data = {
 "cutscene": SubResource("Animation_more6")
 }
 
-[node name="Node2D" type="Node2D"]
+[node name="Cutscene" type="Node2D"]
 script = ExtResource("1_a882f")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

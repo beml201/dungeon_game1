@@ -26,3 +26,4 @@ signal mob_attack
 signal magic_mushroom
 signal create_enemies
 signal log_player_position
+signal climb_ladder
