@@ -29,9 +29,8 @@ func _ready() -> void:
 	#_load_small_sam()
 	animation_melee = $Basic_Animations
 	animation_walk = $Basic_Animations
-	#TESTING
-	player_upgrades.append("ENLEGEN")
-	_load_stomp()
+	$Stomp/CollisionShape2D.disabled = true
+	print($Stomp/CollisionShape2D.disabled)
 #func _load_small_sam():
 #	$body.shape = $SamSmall/CollisionShape2D.shape
 	#$body.position = $SamSmall/CollisionShape2D.position
@@ -69,7 +68,15 @@ func _load_stomp():
 	$Stomp/CollisionShape2D.disabled = true
 	
 	
+func _load_shield():
+	$Shield.show()
+	$Shield/Shield_Animations.play("static")
+	health += 20
+	$HealthLabel.text = "Health: "+str(max(0,health))
+	
 func _take_damage(damage):
+	#if "ENSHEILD" in player_upgrades:
+		#want damage to be -20% 
 	health -= damage
 	$HealthLabel.text = "Health: "+str(max(0,health))
 	if health<=0:
@@ -92,6 +99,8 @@ func _on_spritechange(event):
 			_load_fastleg()
 		"ENLEGEN":
 			_load_stomp()
+		"ENSHIELD":
+			_load_shield()
 
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
@@ -165,10 +174,10 @@ func _on_hit_box_body_exited(body):
 		
 func _on_stomp_body_entered(body):
 	print(body)
+	print($Stomp/CollisionShape2D.disabled)
 	if body.has_method("_take_damage") and not body.has_method("player"):
 		body.check_for_damage = true
 		body._take_damage(30)
-		
 
 		
 func mob_slime_attack():
@@ -208,9 +217,3 @@ func give_player_position():
 	while not Global.game_end:
 		await get_tree().create_timer(0.5).timeout
 		Global.log_player_position.emit(self.global_position)
-
-
-
-
-		
-	 # Replace with function body.

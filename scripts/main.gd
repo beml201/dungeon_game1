@@ -118,6 +118,8 @@ func begin_phase2():
 	player.give_player_position()
 	# Start making waves of villagers
 	for i in range(100):
+		if Global.game_end:
+			break
 		var new_villager_timeout = randf_range(0.5, 5^(i/100))
 		await get_tree().create_timer(new_villager_timeout).timeout
 		add_random_villager()

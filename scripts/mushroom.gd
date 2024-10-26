@@ -32,6 +32,9 @@ func _ready():
 		"ENLEGEN":
 			default_text = "a shroom of Enlegening"
 			$Sprite2D.texture = load("res://assets/mush in cage.png")
+		"ENSHIELD":
+			default_text = "a shroom of Enshielding"
+			$Sprite2D.texture = load("res://assets/mush in cage.png")
 	$TextBox/Label.text = default_text
 		
 func _physics_process(delta: float) -> void:

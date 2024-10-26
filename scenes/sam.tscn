@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://cbrm1u773r5uw"]
+[gd_scene load_steps=55 format=3 uid="uid://cbrm1u773r5uw"]
 
 [ext_resource type="Script" path="res://scripts/sam.gd" id="1_s1nh6"]
 [ext_resource type="Texture2D" uid="uid://d1gqyi6xkojic" path="res://assets/animations/lil dude smol walking.png" id="2_fetyd"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scripts/sword_hit.gd" id="6_tsj6v"]
 [ext_resource type="Texture2D" uid="uid://uandh6c2goi" path="res://assets/hawk eye.png" id="7_khhpw"]
 [ext_resource type="Texture2D" uid="uid://bpsbk3mr6q107" path="res://assets/animations/lil dude speedwalking.png" id="9_o31xi"]
+[ext_resource type="Texture2D" uid="uid://6icabvq26el5" path="res://assets/animations/lil dude shield.png" id="9_satwa"]
 [ext_resource type="Texture2D" uid="uid://cclotcafggyj2" path="res://assets/animations/lil dude stomp2.png" id="10_owccb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hwicc"]
@@ -323,6 +324,45 @@ _data = {
 "walking": SubResource("Animation_fmjkb")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_fcfmw"]
+
+[sub_resource type="Animation" id="Animation_0iaar"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_65gye"]
+resource_name = "static"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.266667, 0.433333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m8b55"]
+_data = {
+"RESET": SubResource("Animation_0iaar"),
+"static": SubResource("Animation_65gye")
+}
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_j878r"]
 radius = 136.235
 
@@ -374,7 +414,7 @@ tracks/1/path = NodePath("CollisionShape2D:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.733333, 0.866667, 0.9),
+"times": PackedFloat32Array(-0.0333333, 0.733333, 0.866667, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [true, false, false, true]
@@ -675,6 +715,22 @@ libraries = {
 }
 autoplay = "static"
 speed_scale = 2.5
+
+[node name="Shield" type="Area2D" parent="."]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="Shield"]
+position = Vector2(12, 1)
+texture = ExtResource("9_satwa")
+hframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield"]
+shape = SubResource("CircleShape2D_fcfmw")
+
+[node name="Shield_Animations" type="AnimationPlayer" parent="Shield"]
+libraries = {
+"": SubResource("AnimationLibrary_m8b55")
+}
 
 [node name="Stomp" type="Area2D" parent="."]
 visible = false

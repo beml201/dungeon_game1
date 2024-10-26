@@ -7,7 +7,7 @@ var strength := 10
 var attack_speed := 2
 var knockback_time := 0.5
 var stun := 1
-const MAX_PLAYER_POSITIONS := 8
+const MAX_PLAYER_POSITIONS := 6
 const villager_types := ["REGULAR", "ARMS", "LEGS"]
 var villager_type := "REGULAR"
 
@@ -93,14 +93,13 @@ func flip_sprite():
 
 func track_player():
 	for pos in player_positions:
-		if pos.distance_squared_to(global_position)<8:
+		if pos.distance_squared_to(global_position)<25:
 			player_positions.pop_front()
-		if player_positions.size()>0:
-			velocity = (player_positions[0]-global_position).normalized()
-			velocity *= speed
-			flip_sprite()
-			move_and_slide()
-			player_positions.pop_front()
+	if player_positions.size()>0:
+		velocity = (player_positions[0]-global_position).normalized()
+		velocity *= speed
+		flip_sprite()
+		move_and_slide()
 
 func walk_directly_to_player():
 	player_positions = []

@@ -12,5 +12,5 @@ func _process(delta: float) -> void:
 func _new_label(label):
 	if label=="ENSEEEN":
 		$Shoot.show()
-	if label=="ENLEGGEN":
+	if label=="ENLEGEN":
 		$Stomp.show()
