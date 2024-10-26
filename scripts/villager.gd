@@ -7,7 +7,9 @@ var strength := 10
 var attack_speed := 3
 var knockback_time := 0.5
 var stun := 2
-const MAX_PLAYER_POSITIONS = 5
+const MAX_PLAYER_POSITIONS := 5
+const villager_types := ["REGULAR", "ARMS", "LEGS"]
+var villager_type := "REGULAR"
 
 # Other variables
 enum { IN_RANGE, IN_VIEW, KNOCKBACK, LONG_FOLLOW }
@@ -17,22 +19,47 @@ var check_for_damage := false
 var player = null
 var villager_direction = "right"
 var player_positions := []
+var villager_sprite = null
+var villager_animation = null
+var knockback_y = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Global.connect("player_attack", _take_damage)
 	Global.connect("log_player_position", _log_player_position)
+	# Decide what kind of villager you are
+	match villager_type:
+		"REGULAR":
+			villager_sprite = $Regular/Sprite/Sprite2D
+			villager_animation = $Regular/AnimationPlayer
+		"ARMS":
+			villager_sprite = $Arms/Sprite/Sprite2D
+			villager_animation = $Arms/AnimationPlayer
+			$Arms.show()
+			attack_speed = 0.5
+			knockback_time = 1.0
+			$Regular.hide()
+		"LEGS":
+			villager_sprite = $Legs/Sprite/Sprite2D
+			villager_animation = $Legs/AnimationPlayer
+			$Legs.show()
+			speed += 100
+			strength += 10
+			attack_speed = 1.0
+			$Regular.hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	match current_state:
 		IN_VIEW:
+			villager_animation.play("walk")
 			walk_directly_to_player()
 		IN_RANGE:
 			attack()
 		KNOCKBACK:
 			knockback()
 		LONG_FOLLOW:
+			villager_animation.play("walk")
 			track_player()
 
 func flip_sprite():
@@ -60,7 +87,7 @@ func track_player():
 			player_positions.pop_front()
 		if player_positions.size()>0:
 			velocity = (player_positions[0]-global_position).normalized()
-			velocity *= speed
+			velocity *= speed/4
 			flip_sprite()
 			move_and_slide()
 
@@ -74,6 +101,8 @@ func walk_directly_to_player():
 func attack():
 	if can_attack:
 		can_attack = false
+		if "attack" in villager_animation.get_animation_list():
+			villager_animation.play("attack")
 		Global.mob_attack.emit(strength)
 		await get_tree().create_timer(attack_speed).timeout
 		can_attack = true
@@ -81,7 +110,7 @@ func attack():
 func knockback():
 	velocity.x = sign((player.global_position-global_position).x)
 	velocity.x *= -1
-	velocity.y = randf_range(-0.1, 0.1)
+	velocity.y = knockback_y
 	velocity *= speed
 	move_and_slide()
 
@@ -90,13 +119,12 @@ func damage_visual(n_flashes=3):
 		var time = knockback_time/(2*n_flashes)
 		await get_tree().create_timer(time).timeout
 		if i%2==0:
-			$Sprite/Sprite2D.set_modulate(Color(1,0.2,0.2))
+			villager_sprite.set_modulate(Color(1,0.2,0.2))
 		else:
-			$Sprite/Sprite2D.set_modulate(Color(1,1,1))
+			villager_sprite.set_modulate(Color(1,1,1))
 			
 func _take_damage(damage):
 	if check_for_damage:
-		print(damage)
 		check_for_damage = false
 		# Damage
 		health -= damage
@@ -106,6 +134,7 @@ func _take_damage(damage):
 			queue_free()
 		# Allow damage to be taken again
 		current_state = KNOCKBACK
+		knockback_y = randf_range(-1, 1)
 		# Show that the mob has taken damage
 		damage_visual()
 	

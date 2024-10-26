@@ -1,6 +1,5 @@
 extends Node2D
 
-
 var to_show = ["RichTextLabel", "Sprite2D2", "Sprite2D3", "Sprite2D4", "RichTextLabel2"]
 var to_animate = ["cutscene", null, null, null, null]
 var click = null
@@ -22,8 +21,9 @@ func _on_button_pressed() -> void:
 		#	await get_tree().create_timer(0.01).timeout
 		#	mynode.modulate.a = i/10
 	else:
+		Global.cutscene_end.emit()
 		print("Back to game...")
-		get_tree().change_scene_to_file("res://scenes/main.tscn")
+		#get_tree().change_scene_to_file("res://scenes/main.tscn")
 	#$RichTextLabel.show()
 	#$AnimationPlayer.play("cutscene")
 	

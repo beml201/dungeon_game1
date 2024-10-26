@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://h6g56o37jpfg"]
+[gd_scene load_steps=9 format=3 uid="uid://od8enannl5i2"]
 
 [ext_resource type="Script" path="res://scenes/cutscene.gd" id="1_a882f"]
 [ext_resource type="Texture2D" uid="uid://cm6hfb4kyv2im" path="res://assets/cutscene/angry mob 1.png" id="1_qjw5p"]
@@ -155,7 +155,7 @@ offset_bottom = 843.0
 scale = Vector2(-17.1204, -10.4713)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-visible = false
+enabled = false
 zoom = Vector2(0.5, 0.5)
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="."]

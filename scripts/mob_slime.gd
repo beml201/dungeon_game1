@@ -18,6 +18,7 @@ var player_attack_cooldown
 var mob_direction = "left"
 var current_state = IDLE
 var dir = Vector2.LEFT
+var knockback_y = 0
 #var player_current_attack = false
 
 func _ready():
@@ -68,7 +69,7 @@ func move():
 func knockback():
 	velocity.x = int(mob_direction=="right")*2-1
 	velocity.x *= -1
-	velocity.y = randf_range(-0.1, 0.1)
+	velocity.y = knockback_y
 	velocity *= 2*speed
 	move_and_slide()
 
@@ -87,6 +88,7 @@ func _take_damage(damage):
 		check_for_damage = false
 		# Knockback
 		current_state = KNOCKBACK
+		knockback_y = randf_range(-1, 1)
 		# Damage
 		health -= damage
 		$HealthLabel.text = "Health: "+str(max(0,health))

@@ -28,21 +28,26 @@ func _ready():
 	$Background_music.play()
 	add_enemies(0)
 	Global.connect("climb_ladder", climb_ladder)
+	Global.connect("cutscene_end", begin_phase2)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Global.mobs_left == 0 and not Global.key_spawned and not Global.player_can_upgrade:
-		add_key(Global.dungeons_finished)
+		if Global.rooms_spawned==dungeon.N_ROOMS:
+			Global.mobs_left += 1
+			add_ladder()
+		else:
+			add_key(Global.dungeons_finished)
 
 func add_enemies(room_number):
 	# Don't create mobs in the final dungeon
-	if room_number+1==dungeon.N_ROOMS:
-		Global.mobs_left += 1
-		var ladder = Ladder.instantiate()
-		ladder.position = dungeon.room_pos_ul[room_number] + (dungeon.ROOM_SIZE/2)
-		ladder.position *= Global.TILE_SIZE
-		add_child(ladder)
-		return
+	#if room_number+1==dungeon.N_ROOMS:
+	#	Global.mobs_left += 1
+	#	var ladder = Ladder.instantiate()
+	#	ladder.position = dungeon.room_pos_ul[room_number] + (dungeon.ROOM_SIZE/2)
+	#	ladder.position *= Global.TILE_SIZE
+	#	add_child(ladder)
+	#	return
 	# Select the last enemy for the room number to generate
 	var enemies = enemy_order.slice(0, 1+min(room_number, enemy_order.size()))
 	var to_spawn = enemies
@@ -65,7 +70,26 @@ func add_key(room_number):
 	key.position *= Global.TILE_SIZE
 	add_child(key)
 	
+func add_ladder():
+	var ladder = Ladder.instantiate()
+	ladder.position = dungeon.room_pos_ul[-1] + (dungeon.ROOM_SIZE/2)
+	ladder.position *= Global.TILE_SIZE
+	ladder.z_index = 99
+	add_child(ladder)
+	
 func climb_ladder():
-	#get_tree().paused = true 
-	print("you win")
-	get_tree().change_scene_to_file("res://scenes/cutscene.tscn")
+	# Disable the player and hide the set
+	player.process_mode = PROCESS_MODE_DISABLED
+	player.get_node("Camera2D").enabled = false
+	dungeon.hide()
+	# Change to cutscene
+	$Cutscene.z_index = 100
+	$Cutscene.get_node("Camera2D").enabled = true
+	$Cutscene.show()
+	
+func begin_phase2():
+	$Cutscene.get_node("Camera2D").enabled = false
+	$Cutscene.hide()
+	dungeon.show()
+	player.process_mode = PROCESS_MODE_INHERIT
+	player.get_node("Camera2D").enabled = true

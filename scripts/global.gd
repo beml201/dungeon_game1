@@ -27,3 +27,4 @@ signal magic_mushroom
 signal create_enemies
 signal log_player_position
 signal climb_ladder
+signal cutscene_end

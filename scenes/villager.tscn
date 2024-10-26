@@ -1,42 +1,266 @@
-[gd_scene load_steps=6 format=3 uid="uid://don2ex3agxy1g"]
+[gd_scene load_steps=24 format=3 uid="uid://don2ex3agxy1g"]
 
 [ext_resource type="Script" path="res://scripts/villager.gd" id="1_cuo2x"]
 [ext_resource type="Texture2D" uid="uid://ftiqobmplpc2" path="res://assets/animations/villager normal1.png" id="1_vx1yo"]
+[ext_resource type="Texture2D" uid="uid://b4icr7wwmwuna" path="res://assets/animations/arm monster.png" id="3_a1sot"]
+[ext_resource type="Texture2D" uid="uid://dauj6jp6ra58" path="res://assets/animations/leg monster.png" id="4_0se0u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cc3w2"]
 radius = 96.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_8i7id"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u20vk"]
 radius = 12.0
 height = 40.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_8i7id"]
+
+[sub_resource type="Animation" id="Animation_rk5ca"]
+resource_name = "walk"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_3stc1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_mjbcr"]
+resource_name = "attacking"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.33, 0.66),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 3, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_txfv2"]
+_data = {
+"RESET": SubResource("Animation_3stc1"),
+"attack": SubResource("Animation_mjbcr"),
+"walk": SubResource("Animation_rk5ca")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8n6qf"]
+radius = 15.0
+height = 54.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_icyrj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jdy73"]
+
+[sub_resource type="Animation" id="Animation_3iu2y"]
+resource_name = "walk"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [1, 3, 4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_jobfr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_88l3o"]
+_data = {
+"RESET": SubResource("Animation_jobfr"),
+"walk": SubResource("Animation_3iu2y")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nue3h"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_erj5m"]
+radius = 96.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qewmb"]
+
+[sub_resource type="Animation" id="Animation_6ntn8"]
+resource_name = "walk"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_fj4dp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cmqb2"]
+_data = {
+"RESET": SubResource("Animation_fj4dp"),
+"walk": SubResource("Animation_6ntn8")
+}
+
 [node name="Villager" type="CharacterBody2D"]
 script = ExtResource("1_cuo2x")
 
-[node name="Sprite" type="Area2D" parent="."]
+[node name="body" type="CollisionShape2D" parent="."]
+visible = false
+
+[node name="Regular" type="Node2D" parent="."]
 position = Vector2(17, -3)
 
-[node name="Sprite2D" type="Sprite2D" parent="Sprite"]
+[node name="Sprite" type="Area2D" parent="Regular"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Regular/Sprite"]
 texture = ExtResource("1_vx1yo")
 hframes = 4
 
-[node name="view" type="Area2D" parent="."]
+[node name="view" type="Area2D" parent="Regular"]
+position = Vector2(-17, 3)
 
-[node name="view area" type="CollisionShape2D" parent="view"]
+[node name="view area" type="CollisionShape2D" parent="Regular/view"]
 shape = SubResource("CircleShape2D_cc3w2")
 
-[node name="hitbox" type="Area2D" parent="."]
+[node name="body" type="CollisionShape2D" parent="Regular"]
+position = Vector2(-17, 13)
+shape = SubResource("CapsuleShape2D_u20vk")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+[node name="hitbox" type="Area2D" parent="Regular"]
+position = Vector2(-17, 3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Regular/hitbox"]
 position = Vector2(0, 10)
 scale = Vector2(1.6, 2)
 shape = SubResource("CircleShape2D_8i7id")
 
-[node name="body" type="CollisionShape2D" parent="."]
-position = Vector2(0, 10)
-shape = SubResource("CapsuleShape2D_u20vk")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Regular"]
+libraries = {
+"": SubResource("AnimationLibrary_txfv2")
+}
+
+[node name="Arms" type="Node2D" parent="."]
+visible = false
+
+[node name="Sprite" type="Area2D" parent="Arms"]
+position = Vector2(-4, 5)
+scale = Vector2(1.5, 1.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Arms/Sprite"]
+texture = ExtResource("3_a1sot")
+hframes = 7
+
+[node name="body" type="CollisionShape2D" parent="Arms"]
+position = Vector2(0, 8)
+shape = SubResource("CapsuleShape2D_8n6qf")
+
+[node name="view" type="Area2D" parent="Arms"]
+
+[node name="view area" type="CollisionShape2D" parent="Arms/view"]
+scale = Vector2(15, 15)
+shape = SubResource("CircleShape2D_icyrj")
+
+[node name="hitbox" type="Area2D" parent="Arms"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arms/hitbox"]
+position = Vector2(0, 8)
+scale = Vector2(3.5, 3)
+shape = SubResource("CircleShape2D_jdy73")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Arms"]
+libraries = {
+"": SubResource("AnimationLibrary_88l3o")
+}
+speed_scale = 2.0
+
+[node name="Legs" type="Node2D" parent="."]
+visible = false
+
+[node name="Sprite" type="Area2D" parent="Legs"]
+position = Vector2(-5, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Legs/Sprite"]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_0se0u")
+hframes = 5
+
+[node name="body" type="CollisionShape2D" parent="Legs"]
+position = Vector2(0, 2)
+scale = Vector2(1.5, 3)
+skew = -0.349066
+shape = SubResource("CircleShape2D_nue3h")
+
+[node name="view" type="Area2D" parent="Legs"]
+
+[node name="view area" type="CollisionShape2D" parent="Legs/view"]
+shape = SubResource("CircleShape2D_erj5m")
+
+[node name="hitbox" type="Area2D" parent="Legs"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Legs/hitbox"]
+position = Vector2(0, 3)
+scale = Vector2(2, 3.5)
+skew = -0.349066
+shape = SubResource("CircleShape2D_qewmb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Legs"]
+libraries = {
+"": SubResource("AnimationLibrary_cmqb2")
+}
 
 [node name="HealthLabel" type="Label" parent="."]
 offset_left = -43.0
@@ -45,8 +269,8 @@ offset_right = 45.0
 offset_bottom = 54.0
 text = "Health: 50"
 
-[connection signal="body_entered" from="view" to="." method="_on_view_body_entered"]
-[connection signal="body_exited" from="view" to="." method="_on_view_body_exited"]
-[connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
-[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
-[connection signal="body_exited" from="hitbox" to="." method="_on_hitbox_body_exited"]
+[connection signal="body_entered" from="Regular/view" to="." method="_on_view_body_entered"]
+[connection signal="body_exited" from="Regular/view" to="." method="_on_view_body_exited"]
+[connection signal="area_entered" from="Regular/hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Regular/hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="Regular/hitbox" to="." method="_on_hitbox_body_exited"]
