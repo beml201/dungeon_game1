@@ -32,6 +32,7 @@ func _process(delta):
 		add_key(Global.dungeons_finished)
 
 func add_enemies(room_number):
+	# Don't create mobs in the final dungeon
 	if room_number+1==dungeon.N_ROOMS:
 		Global.mobs_left += 1
 		return
