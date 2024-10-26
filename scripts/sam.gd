@@ -15,6 +15,7 @@ var is_attacking = false
 var animation_melee = null
 var animation_walk = null
 var animation_shoot = null
+var stomp = null
 const Projectile = preload("res://scenes/projectile.tscn")
 func player():
 	pass
@@ -28,7 +29,9 @@ func _ready() -> void:
 	#_load_small_sam()
 	animation_melee = $Basic_Animations
 	animation_walk = $Basic_Animations
-	
+	#TESTING
+	player_upgrades.append("ENLEGEN")
+	_load_stomp()
 #func _load_small_sam():
 #	$body.shape = $SamSmall/CollisionShape2D.shape
 	#$body.position = $SamSmall/CollisionShape2D.position
@@ -61,6 +64,11 @@ func _load_fastleg():
 	$FastLeg.show()
 	speed += 100
 	
+func _load_stomp():
+	$Stomp.show()
+	$Stomp/CollisionShape2D.disabled = true
+	
+	
 func _take_damage(damage):
 	health -= damage
 	$HealthLabel.text = "Health: "+str(max(0,health))
@@ -82,6 +90,8 @@ func _on_spritechange(event):
 			_load_hawkeye()
 		"ENSPEEDEN":
 			_load_fastleg()
+		"ENLEGEN":
+			_load_stomp()
 
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
@@ -103,6 +113,8 @@ func get_input():
 			animation_walk.play("walking")
 			if "ENSPEEDEN" in player_upgrades:
 				$FastLeg/AnimationPlayer.play("walking")
+			if"ENLEGEN" in player_upgrades:
+				$Stomp/Stomp_Animations.play("walking")
 		else:
 			#$Basic_Animations.stop()
 			animation_walk.stop()
@@ -124,6 +136,10 @@ func _input(event):
 		#$Basic_Animations.play("walking-slash")
 		animation_melee.play("slash")
 		#Global.player_attack.emit(strength)
+	if event.is_action("stomp") and not is_attacking and "ENLEGEN" in player_upgrades:
+		is_attacking = true
+		$Stomp/Stomp_Animations.play("Stomp")
+		
 		
 	if event.is_action("shoot") and not is_attacking and "ENSEEEN" in player_upgrades:
 		is_attacking = true
@@ -134,6 +150,11 @@ func _input(event):
 		await get_tree().create_timer(1).timeout
 		is_attacking = false 
 
+func _on_stomp_animations_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "Stomp":
+		await get_tree().create_timer(1).timeout
+		is_attacking = false
+
 func _on_hit_box_body_entered(body):
 	if body.has_method("mob_slime"):
 		mob_slime_inattack_range = true
@@ -141,6 +162,14 @@ func _on_hit_box_body_entered(body):
 func _on_hit_box_body_exited(body):
 	if body.has_method("mob_slime"):
 		mob_slime_inattack_range = false
+		
+func _on_stomp_body_entered(body):
+	print(body)
+	if body.has_method("_take_damage") and not body.has_method("player"):
+		body.check_for_damage = true
+		body._take_damage(30)
+		
+
 		
 func mob_slime_attack():
 	if mob_slime_inattack_range and mob_slime_attack_cooldown == true:
@@ -179,3 +208,9 @@ func give_player_position():
 	while not Global.game_end:
 		await get_tree().create_timer(0.5).timeout
 		Global.log_player_position.emit(self.global_position)
+
+
+
+
+		
+	 # Replace with function body.
