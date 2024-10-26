@@ -552,7 +552,7 @@ text = "Health: 100"
 [connection signal="animation_finished" from="SamEmbiggened/Animations" to="." method="_on_animation_player_animation_finished"]
 [connection signal="animation_finished" from="Arm/Arm_Animations" to="." method="_on_arm_animations_animation_finished"]
 [connection signal="animation_finished" from="Arm/Arm_Animations" to="." method="_on_animation_player_animation_finished"]
-[connection signal="animation_finished" from="Basic_Animations" to="." method="_on_basic_animations_animation_finished"]
 [connection signal="animation_finished" from="Basic_Animations" to="." method="_on_animation_player_animation_finished"]
+[connection signal="animation_finished" from="Basic_Animations" to="." method="_on_basic_animations_animation_finished"]
 [connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="attack_duration" to="." method="_on_attack_duration_timeout"]

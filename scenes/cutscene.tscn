@@ -1,0 +1,173 @@
+[gd_scene load_steps=9 format=3 uid="uid://h6g56o37jpfg"]
+
+[ext_resource type="Script" path="res://scenes/cutscene.gd" id="1_a882f"]
+[ext_resource type="Texture2D" uid="uid://cm6hfb4kyv2im" path="res://assets/cutscene/angry mob 1.png" id="1_qjw5p"]
+[ext_resource type="Texture2D" uid="uid://ckl3ft3bjgopb" path="res://assets/cutscene/angry mob 2.png" id="2_pjpnn"]
+[ext_resource type="Texture2D" uid="uid://dq3gyxwejatco" path="res://assets/cutscene/angry mob 3.png" id="3_riuln"]
+[ext_resource type="Texture2D" uid="uid://cgx2u3kdut2n2" path="res://assets/cutscene/angry mob 4.png" id="4_r55ou"]
+
+[sub_resource type="Animation" id="Animation_xuu4o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D2:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_pjpnn")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RichTextLabel:text")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["  You cleared the 
+      G'dungeon 
+"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D2:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D3:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_more6"]
+resource_name = "cutscene"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D2:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_pjpnn")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RichTextLabel:text")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.333333, 0.966667, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": ["  You cleared the 
+      G'dungeon 
+", "  You cleared the 
+      G'dungeon 
+
+THE END...", "  You cleared the 
+      G'dungeon 
+
+THE END....or is it?", "  You cleared the 
+      G'dungeon 
+
+THE END....or is it?"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vdwx1"]
+_data = {
+"RESET": SubResource("Animation_xuu4o"),
+"cutscene": SubResource("Animation_more6")
+}
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_a882f")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(20, 20)
+texture = ExtResource("1_qjw5p")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vdwx1")
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+visible = false
+offset_left = -683.0
+offset_top = -406.0
+offset_right = -483.0
+offset_bottom = -245.0
+scale = Vector2(9.201, 5)
+text = "  You cleared the 
+      G'dungeon 
+"
+fit_content = true
+autowrap_mode = 0
+tab_size = 12
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(20, 20)
+texture = ExtResource("2_pjpnn")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+scale = Vector2(20, 20)
+texture = ExtResource("3_riuln")
+
+[node name="Sprite2D4" type="Sprite2D" parent="."]
+visible = false
+texture_filter = 1
+scale = Vector2(20, 20)
+texture = ExtResource("4_r55ou")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 1084.0
+offset_top = 707.0
+offset_right = 1220.0
+offset_bottom = 843.0
+scale = Vector2(-17.1204, -10.4713)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+visible = false
+zoom = Vector2(0.5, 0.5)
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+visible = false
+offset_left = -72.0
+offset_top = -556.0
+offset_right = 328.0
+offset_bottom = -280.0
+scale = Vector2(5, 3.378)
+text = "ANOTHER MONSTER 
+       IS ESCAPING THE 
+                 DUNGEON!"
+fit_content = true
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
