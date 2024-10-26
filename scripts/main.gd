@@ -13,12 +13,14 @@ const Arms = preload("res://scenes/mob_arms.tscn")
 const Legs = preload("res://scenes/mob_legs.tscn")
 const Slug = preload("res://scenes/mob_slug.tscn")
 const Phantom = preload("res://scenes/mob_phantom.tscn")
+const Villager = preload("res://scenes/villager.tscn")
 var enemy_order = [Slime, Crawler, Phantom]
 ##Other
 const Mush = preload("res://scenes/mushroom.tscn")
 const Key = preload("res://scenes/key.tscn")
 const Ladder = preload("res://scenes/Ladder.tscn")
 const Cutscene = preload("res://scenes/cutscene.tscn")
+var ladder = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Global.connect("create_enemies", add_enemies)
@@ -71,7 +73,7 @@ func add_key(room_number):
 	add_child(key)
 	
 func add_ladder():
-	var ladder = Ladder.instantiate()
+	ladder = Ladder.instantiate()
 	ladder.position = dungeon.room_pos_ul[-1] + (dungeon.ROOM_SIZE/2)
 	ladder.position *= Global.TILE_SIZE
 	ladder.z_index = 99
@@ -87,9 +89,37 @@ func climb_ladder():
 	$Cutscene.get_node("Camera2D").enabled = true
 	$Cutscene.show()
 	
+func add_random_villager():
+	var new_villager = Villager.instantiate()
+	var random_type = randi()%100
+	if random_type<80:
+		new_villager.villager_type="REGULAR"
+	elif random_type<95:
+		new_villager.villager_type="LEGS"
+	else:
+		new_villager.villager_type="ARMS"
+	var random_room = randi()%(50+dungeon.N_ROOMS)
+	if random_room<dungeon.N_ROOMS:
+		new_villager.global_position = dungeon.room_pos_ul[random_room]+dungeon.ROOM_SIZE/2
+	else:
+		new_villager.global_position = dungeon.room_pos_ul[-1]+dungeon.ROOM_SIZE/2
+	new_villager.global_position += Vector2(randi_range(-2,2), randi_range(-2,2))
+	new_villager.global_position *= Global.TILE_SIZE
+	add_child(new_villager)
+
 func begin_phase2():
+	# Unlock everything
 	$Cutscene.get_node("Camera2D").enabled = false
 	$Cutscene.hide()
 	dungeon.show()
 	player.process_mode = PROCESS_MODE_INHERIT
 	player.get_node("Camera2D").enabled = true
+	
+	player.give_player_position()
+	# Start making waves of villagers
+	for i in range(100):
+		var new_villager_timeout = randf_range(0.5, 5^(i/100))
+		await get_tree().create_timer(new_villager_timeout).timeout
+		add_random_villager()
+	Global.game_end = true
+	print("End of game")

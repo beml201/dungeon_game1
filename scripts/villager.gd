@@ -1,13 +1,13 @@
 extends CharacterBody2D
 
 # MetaData
-var speed := 200 +randi()%20
-var health := 50
+var speed := 200 +randi()%100
+var health := 100
 var strength := 10
-var attack_speed := 3
+var attack_speed := 2
 var knockback_time := 0.5
-var stun := 2
-const MAX_PLAYER_POSITIONS := 5
+var stun := 1
+const MAX_PLAYER_POSITIONS := 8
 const villager_types := ["REGULAR", "ARMS", "LEGS"]
 var villager_type := "REGULAR"
 
@@ -30,24 +30,34 @@ func _ready() -> void:
 	# Decide what kind of villager you are
 	match villager_type:
 		"REGULAR":
+			# Swap sprites randomly for teh regular villager
+			if randi()%2==1:
+				$Regular/Sprite/Sprite2D.texture = load("res://assets/animations/villager normal2.png")
 			villager_sprite = $Regular/Sprite/Sprite2D
 			villager_animation = $Regular/AnimationPlayer
+			$body.shape = $Regular/body.shape
+			$body.scale = $Regular/body.scale
 		"ARMS":
+			$Regular.hide()
 			villager_sprite = $Arms/Sprite/Sprite2D
 			villager_animation = $Arms/AnimationPlayer
 			$Arms.show()
+			$body.shape = $Arms/body.shape
+			$body.scale = $Arms/body.scale
 			attack_speed = 0.5
+			strength = 5
 			knockback_time = 1.0
-			$Regular.hide()
+			stun = 3.0
 		"LEGS":
+			$Regular.hide()
 			villager_sprite = $Legs/Sprite/Sprite2D
 			villager_animation = $Legs/AnimationPlayer
 			$Legs.show()
+			$body.shape = $Legs/body.shape
+			$body.scale = $Legs/body.scale
 			speed += 100
 			strength += 10
-			attack_speed = 1.0
-			$Regular.hide()
-
+			attack_speed = 3
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	match current_state:
@@ -83,18 +93,19 @@ func flip_sprite():
 
 func track_player():
 	for pos in player_positions:
-		if pos.distance_squared_to(global_position)<9:
+		if pos.distance_squared_to(global_position)<8:
 			player_positions.pop_front()
 		if player_positions.size()>0:
 			velocity = (player_positions[0]-global_position).normalized()
-			velocity *= speed/4
+			velocity *= speed
 			flip_sprite()
 			move_and_slide()
+			player_positions.pop_front()
 
 func walk_directly_to_player():
 	player_positions = []
 	velocity = (player.global_position-global_position).normalized()
-	velocity *= speed/4
+	velocity *= speed/2
 	flip_sprite()
 	move_and_slide()
 	

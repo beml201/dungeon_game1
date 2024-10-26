@@ -159,7 +159,6 @@ _data = {
 script = ExtResource("1_cuo2x")
 
 [node name="body" type="CollisionShape2D" parent="."]
-visible = false
 
 [node name="Regular" type="Node2D" parent="."]
 position = Vector2(17, -3)
@@ -274,3 +273,13 @@ text = "Health: 50"
 [connection signal="area_entered" from="Regular/hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="body_entered" from="Regular/hitbox" to="." method="_on_hitbox_body_entered"]
 [connection signal="body_exited" from="Regular/hitbox" to="." method="_on_hitbox_body_exited"]
+[connection signal="body_entered" from="Arms/view" to="." method="_on_view_body_entered"]
+[connection signal="body_exited" from="Arms/view" to="." method="_on_view_body_exited"]
+[connection signal="area_entered" from="Arms/hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Arms/hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="Arms/hitbox" to="." method="_on_hitbox_body_exited"]
+[connection signal="body_entered" from="Legs/view" to="." method="_on_view_body_entered"]
+[connection signal="body_exited" from="Legs/view" to="." method="_on_view_body_exited"]
+[connection signal="area_entered" from="Legs/hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="body_entered" from="Legs/hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="Legs/hitbox" to="." method="_on_hitbox_body_exited"]
