@@ -6,7 +6,7 @@ var direction = Global.player_direction
 var damage = 10
 
 func _ready():
-	global_position.y += 15
+	global_position.y += -10
 	if Global.player_direction == "right":
 		global_position.x += 25
 	elif Global.player_direction == "left":

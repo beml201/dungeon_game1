@@ -57,6 +57,10 @@ func _load_hawkeye():
 	$HawkEye.show()
 	$Camera2D.zoom = Vector2(1.5, 1.5)
 	
+func _load_fastleg():
+	$FastLeg.show()
+	speed += 100
+	
 func _take_damage(damage):
 	health -= damage
 	$HealthLabel.text = "Health: "+str(max(0,health))
@@ -76,6 +80,8 @@ func _on_spritechange(event):
 			_load_eye()
 		"ENLIGHTEN":
 			_load_hawkeye()
+		"ENSPEEDEN":
+			_load_fastleg()
 
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
@@ -95,6 +101,8 @@ func get_input():
 		if velocity != Vector2(0,0):
 			#$Basic_Animations.play("walking")
 			animation_walk.play("walking")
+			if "ENSPEEDEN" in player_upgrades:
+				$FastLeg/AnimationPlayer.play("walking")
 		else:
 			#$Basic_Animations.stop()
 			animation_walk.stop()
@@ -121,6 +129,7 @@ func _input(event):
 		is_attacking = true
 		var projectile = Projectile.instantiate()
 		projectile.global_position = $Eye.global_position
+		$Eye/Eye_Animations.play("attack")
 		get_parent().add_child(projectile)
 		await get_tree().create_timer(1).timeout
 		is_attacking = false 
@@ -157,6 +166,14 @@ func _on_animation_player_animation_finished(anim_name):
 func _on_arm_animations_animation_finished(anim_name: StringName) -> void:
 	$Arm/Arm_Animations.play("static")
 	pass # Replace with function body.
+	
+func _on_eye_animations_animation_finished(anim_name: StringName) -> void:
+	$Eye/Eye_Animations.play("static")
+	pass # Replace with function body.
+	
+func _on_fast_leg_animation_animation_finished(anim_name: StringName) -> void:
+	$FastLeg/AnimationPlayer.play("static")
+	pass
 	
 func give_player_position():
 	while not Global.game_end:
