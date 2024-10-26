@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://don2ex3agxy1g"]
+
+[ext_resource type="Script" path="res://scripts/villager.gd" id="1_cuo2x"]
+[ext_resource type="Texture2D" uid="uid://ftiqobmplpc2" path="res://assets/animations/villager normal1.png" id="1_vx1yo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cc3w2"]
+radius = 96.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8i7id"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u20vk"]
+radius = 12.0
+height = 40.0
+
+[node name="Villager" type="CharacterBody2D"]
+script = ExtResource("1_cuo2x")
+
+[node name="Sprite" type="Area2D" parent="."]
+position = Vector2(17, -3)
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprite"]
+texture = ExtResource("1_vx1yo")
+hframes = 4
+
+[node name="view" type="Area2D" parent="."]
+
+[node name="view area" type="CollisionShape2D" parent="view"]
+shape = SubResource("CircleShape2D_cc3w2")
+
+[node name="hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+position = Vector2(0, 10)
+scale = Vector2(1.6, 2)
+shape = SubResource("CircleShape2D_8i7id")
+
+[node name="body" type="CollisionShape2D" parent="."]
+position = Vector2(0, 10)
+shape = SubResource("CapsuleShape2D_u20vk")
+
+[node name="HealthLabel" type="Label" parent="."]
+offset_left = -43.0
+offset_top = 31.0
+offset_right = 45.0
+offset_bottom = 54.0
+text = "Health: 100"
+
+[connection signal="body_entered" from="view" to="." method="_on_view_body_entered"]
+[connection signal="body_exited" from="view" to="." method="_on_view_body_exited"]
+[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="hitbox" to="." method="_on_hitbox_body_exited"]

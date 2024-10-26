@@ -83,6 +83,8 @@ func damage_visual(n_flashes=3):
 			
 func _take_damage(damage):
 	if check_for_damage:
+		# Stop multiple damage
+		check_for_damage = false
 		# Knockback
 		current_state = KNOCKBACK
 		# Damage
@@ -91,8 +93,6 @@ func _take_damage(damage):
 		if health<=0:
 			Global.mobs_left -= 1
 			queue_free()
-		# Allow damage to be taken again
-		check_for_damage = false
 		# Show that the mob has taken damage
 		damage_visual()
 

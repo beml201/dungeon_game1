@@ -106,6 +106,7 @@ func _physics_process(delta):
 	if health <= 0:
 		player_alive = false
 		health = 0
+		Global.game_end = true
 		print ("you died")
 		self.queue_free()
 	
@@ -114,7 +115,7 @@ func _input(event):
 		is_attacking = true
 		#$Basic_Animations.play("walking-slash")
 		animation_melee.play("slash")
-		Global.player_attack.emit(strength)
+		#Global.player_attack.emit(strength)
 		
 	if event.is_action("shoot") and not is_attacking and "ENSEEEN" in player_upgrades:
 		is_attacking = true
@@ -151,7 +152,13 @@ func _on_animation_player_animation_finished(anim_name):
 		is_attacking = false
 		Global.player_current_attack = false
 		Global.player_can_attack = true 
+		Global.player_attack.emit(strength)
 
 func _on_arm_animations_animation_finished(anim_name: StringName) -> void:
 	$Arm/Arm_Animations.play("static")
 	pass # Replace with function body.
+	
+func give_player_position():
+	while not Global.game_end:
+		await get_tree().create_timer(0.5).timeout
+		Global.log_player_position.emit(self.global_position)

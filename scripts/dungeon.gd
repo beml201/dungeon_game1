@@ -1,7 +1,7 @@
 extends Node2D
 
 # Static Dungeon MetaData
-const N_ROOMS := 6
+const N_ROOMS := 5
 const ROOM_SIZE := Vector2i(10,10)
 const DIRECTIONS := [Vector2i(1,0),
 					 Vector2i(-1,0),
@@ -47,6 +47,7 @@ func _process(delta):
 func _on_magic_mushroom(event):
 	Global.dungeons_finished += 1
 	draw_corridor(Global.dungeons_finished)
+	Global.emit_signal("create_enemies",Global.dungeons_finished)
 	
 func draw_room(coord_upperleft, width, height):
 	const atlas := Global.BASE_TILE_DICT
@@ -118,8 +119,7 @@ func draw_corridor(n_events):
 		alt_tile_order = [4,6,5,7]
 	for i in range(corridor_pos.size()):
 		tiles.set_cell(corridor_pos[i], 0, Vector2i(0,0), alt_tile_order[i])
-	Global.emit_signal("create_enemies",n_events)
-	
+
 func add_mushrooms(coord_upperleft, room_width, room_height, types=['EMBIGGEN']):
 	for i in range(types.size()):
 		var mushroom = preload("res://scenes/mushroom.tscn").instantiate()

@@ -17,9 +17,12 @@ var player_can_upgrade := false
 var key_spawned := false
 var rooms_spawned = 0
 var mobs_left := 0
+var villagers_killed := 0
+var game_end = false
 
 # Public calls
 signal player_attack
 signal mob_attack
 signal magic_mushroom
 signal create_enemies
+signal log_player_position
