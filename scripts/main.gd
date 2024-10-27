@@ -121,7 +121,7 @@ func begin_phase2():
 	for i in range(Global.MAX_VILLAGERS_KILLED):
 		if Global.game_end:
 			break
-		var new_villager_timeout = randf_range(0.5, 5^(i/100))
+		var new_villager_timeout = randf_range(0.5, 3^(i/Global.MAX_VILLAGERS_KILLED))
 		await get_tree().create_timer(new_villager_timeout).timeout
 		add_random_villager()
 	print("End of game")
