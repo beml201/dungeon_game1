@@ -21,7 +21,7 @@ Global="*res://scripts/global.gd"
 
 [display]
 
-window/stretch/scale_mode="integer"
+window/stretch/mode="canvas_items"
 
 [input]
 
@@ -65,3 +65,4 @@ stomp={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
