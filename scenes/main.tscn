@@ -9,11 +9,13 @@
 script = ExtResource("1_0e6i6")
 
 [node name="Background_music" type="AudioStreamPlayer" parent="."]
+process_mode = 3
 stream = ExtResource("2_lekus")
 volume_db = -40.0
 parameters/looping = true
 
 [node name="Hud" parent="." instance=ExtResource("3_ptf2s")]
+process_mode = 3
 
 [node name="Cutscene" parent="." instance=ExtResource("4_2uebo")]
 visible = false

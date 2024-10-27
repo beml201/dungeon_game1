@@ -31,6 +31,7 @@ func _ready():
 	add_enemies(0)
 	Global.connect("climb_ladder", climb_ladder)
 	Global.connect("cutscene_end", begin_phase2)
+	get_tree().paused = true
 	# TESTING
 	#for i in range(dungeon.N_ROOMS):
 	#	dungeon.draw_corridor(i+1)

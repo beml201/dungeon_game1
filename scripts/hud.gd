@@ -19,3 +19,11 @@ func _new_label(label):
 		
 func _scoreboard():
 	$Score.show()
+	
+
+
+func _on_button_pressed() -> void:
+	$Sprite2D.hide()
+	$Button.hide()
+	get_tree().paused = false
+	print("hello dungeon")

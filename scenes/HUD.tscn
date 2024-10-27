@@ -1,9 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://bnhw8n7ib1j7v"]
+[gd_scene load_steps=3 format=3 uid="uid://bnhw8n7ib1j7v"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_egvgx"]
+[ext_resource type="Texture2D" uid="uid://cst05xgobijyx" path="res://assets/title.png" id="2_uvbpq"]
 
 [node name="Hud" type="CanvasLayer"]
 script = ExtResource("1_egvgx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(578, 322)
+scale = Vector2(11, 11)
+texture = ExtResource("2_uvbpq")
 
 [node name="Main" type="Label" parent="."]
 offset_right = 40.0
@@ -27,7 +34,28 @@ text = "Space to stomp"
 
 [node name="Score" type="Label" parent="."]
 visible = false
-offset_left = 224.0
-offset_right = 454.0
-offset_bottom = 23.0
+offset_left = 216.0
+offset_top = 3.0
+offset_right = 446.0
+offset_bottom = 26.0
+scale = Vector2(1.34023, 1)
 text = "Villagers brutally murdered: 0"
+
+[node name="Youdied" type="Label" parent="."]
+visible = false
+offset_left = 278.0
+offset_top = 101.0
+offset_right = 350.0
+offset_bottom = 124.0
+scale = Vector2(1.4, 1.33333)
+text = "You died "
+
+[node name="Button" type="Button" parent="."]
+offset_left = 439.0
+offset_top = 381.0
+offset_right = 726.0
+offset_bottom = 434.0
+theme_override_font_sizes/font_size = 32
+text = "click here to enter"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

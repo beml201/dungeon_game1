@@ -127,7 +127,7 @@ func get_input():
 func _on_view_body_entered(body):
 	if body.has_method("player"):
 		player = body
-		current_state = ATTACK
+		current_state = CHASE
 		$idle.paused = true
 #	print("chasing")
 	

@@ -120,6 +120,7 @@ text = "Health: 100"
 position = Vector2(-23, 0)
 
 [node name="RunAway" type="Area2D" parent="."]
+position = Vector2(0, -1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RunAway"]
 shape = SubResource("CircleShape2D_wbwrw")

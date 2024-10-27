@@ -150,6 +150,7 @@ func _physics_process(delta):
 		Global.game_end = true
 		print ("you died")
 		self.queue_free()
+		
 	
 func _input(event):
 	if event.is_action("attack") and not is_attacking:
