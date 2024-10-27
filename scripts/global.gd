@@ -23,6 +23,20 @@ var bridge_positions := []
 var villagers_killed := 0
 var game_end = false
 
+func reset_globals():
+	player_direction = "right"
+	player_current_attack = false
+	player_can_attack = true
+	dungeons_finished = 0
+	player_can_upgrade = false
+	key_spawned = false
+	rooms_spawned = 0
+	mobs_left = 0
+	# MetaData for the villagers
+	bridge_positions = []
+	villagers_killed = 0
+	game_end = false
+
 # Public calls
 signal player_attack
 signal mob_attack

@@ -43,11 +43,12 @@ text = "Villagers brutally murdered: 0"
 
 [node name="Youdied" type="Label" parent="."]
 visible = false
-offset_left = 278.0
-offset_top = 101.0
-offset_right = 350.0
-offset_bottom = 124.0
+offset_left = 389.0
+offset_top = 191.0
+offset_right = 657.0
+offset_bottom = 274.0
 scale = Vector2(1.4, 1.33333)
+theme_override_font_sizes/font_size = 60
 text = "You died "
 
 [node name="Button" type="Button" parent="."]
@@ -58,4 +59,25 @@ offset_bottom = 434.0
 theme_override_font_sizes/font_size = 32
 text = "click here to enter"
 
+[node name="WIN" type="Label" parent="."]
+visible = false
+offset_left = 233.0
+offset_top = 213.0
+offset_right = 972.0
+offset_bottom = 468.0
+theme_override_font_sizes/font_size = 60
+text = "You killed all the Villagers
+
+         YOU MONSTER!"
+
+[node name="Restart" type="Button" parent="."]
+visible = false
+offset_left = 503.0
+offset_top = 485.0
+offset_right = 630.0
+offset_bottom = 535.0
+theme_override_font_sizes/font_size = 30
+text = "Restart?"
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Restart" to="." method="_on_restart_pressed"]

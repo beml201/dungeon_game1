@@ -21,6 +21,8 @@ func _process(delta: float) -> void:
 func _player_interact(strength):
 	if in_range:
 		Global.climb_ladder.emit()
+		$CollisionShape2D.disabled = true
+		in_range = false
 	
 	
 func _on_body_entered(body: Node2D) -> void:

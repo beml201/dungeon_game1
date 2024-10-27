@@ -39,6 +39,14 @@ func _ready():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if Global.game_end:
+		get_tree().paused = true
+		$Hud/Youdied.show()
+		$Hud/Restart.show()
+	if Global.villagers_killed == Global.MAX_VILLAGERS_KILLED:
+		get_tree().paused = true
+		$Hud/WIN.show()
+		$Hud/Restart.show()
 	if Global.mobs_left == 0 and not Global.key_spawned and not Global.player_can_upgrade:
 		if Global.rooms_spawned==dungeon.N_ROOMS:
 			Global.mobs_left += 1
@@ -93,12 +101,12 @@ func add_random_villager():
 	
 	var random_type = randi()%100
 	var random_rooms = dungeon.room_pos_ul.duplicate()
-	if random_type<80:
+	if random_type<70:
 		new_villager.villager_type="REGULAR"
 		# Make it so the regular villagers are much more likely to spawn in the end room
 		for i in range(50):
 			random_rooms.append(dungeon.room_pos_ul[-1])
-	elif random_type<95:
+	elif random_type<85:
 		new_villager.villager_type="LEGS"
 	else:
 		new_villager.villager_type="ARMS"
@@ -122,7 +130,7 @@ func begin_phase2():
 	for i in range(Global.MAX_VILLAGERS_KILLED):
 		if Global.game_end:
 			break
-		var new_villager_timeout = randf_range(0.5, 3^(i/Global.MAX_VILLAGERS_KILLED))
+		var new_villager_timeout = randf_range(1, 3^(i/Global.MAX_VILLAGERS_KILLED))
 		await get_tree().create_timer(new_villager_timeout).timeout
 		add_random_villager()
 	print("End of game")

@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 # MetaData
 var speed = 50 +randi()%20
-var health := 100
+var health := 60
 var strength := 1
 var attack_speed := 0.5
 const projectile = preload("res://scenes/phantom_projectile.tscn")
@@ -25,6 +25,7 @@ var stun := 0.2
 func _ready():
 	randomize()
 	Global.connect("player_attack", _take_damage)
+	$HealthLabel.text = "Health: "+str(max(0,health))
 
 func _physics_process(delta):
 	match current_state:
@@ -50,9 +51,10 @@ func walk():
 	move()
 
 func chase(chase_direction = 1):
-	velocity = speed*(player.global_position - global_position).normalized()
-	velocity *= chase_direction
-	move()
+	if player!=null:
+		velocity = speed*(player.global_position - global_position).normalized()
+		velocity *= chase_direction
+		move()
 
 func attack():
 	if not is_attacking:
@@ -65,7 +67,7 @@ func knockback():
 	velocity.x = int(mob_direction=="right")*2-1
 	velocity.x *= -1
 	velocity.y = knockback_y
-	velocity *= 2*speed
+	velocity *= 4*speed
 	move_and_slide()
 	
 func damage_visual(n_flashes=3):
@@ -78,13 +80,14 @@ func damage_visual(n_flashes=3):
 			$Sprite2D.set_modulate(Color(1,1,1))
 
 func cast():
-	$AnimationPlayer.play("cast")
-	var b = projectile.instantiate()
-	add_child(b)
-	b.global_position = $Hand.global_position
-	var dir = (player.global_position - global_position).normalized()
-	b.global_rotation = dir.angle() + PI /2.0
-	b.direction = dir
+	if player!=null:
+		$AnimationPlayer.play("cast")
+		var b = projectile.instantiate()
+		add_child(b)
+		b.global_position = $Hand.global_position
+		var dir = (player.global_position - global_position).normalized()
+		b.global_rotation = dir.angle() + PI /2.0
+		b.direction = dir
 
 
 func move():

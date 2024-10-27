@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cbrudqyeybk80"]
+[gd_scene load_steps=5 format=3 uid="uid://qesbj1s0nrlg"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_0e6i6"]
 [ext_resource type="AudioStream" uid="uid://clpu6sh20fl4f" path="res://assets/music/dungeon.mp3" id="2_lekus"]

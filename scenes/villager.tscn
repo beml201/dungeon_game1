@@ -262,6 +262,7 @@ libraries = {
 }
 
 [node name="HealthLabel" type="Label" parent="."]
+visible = false
 offset_left = -43.0
 offset_top = 31.0
 offset_right = 45.0

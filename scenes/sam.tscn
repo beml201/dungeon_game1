@@ -106,7 +106,7 @@ size = Vector2(23.5, 44.5)
 radius = 33.0248
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yr0cg"]
-size = Vector2(27, 24)
+size = Vector2(23.5, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q3lud"]
 size = Vector2(23, 45)
@@ -321,7 +321,7 @@ tracks/0/path = NodePath("Eye/Eye:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.233333, 0.333333, 0.4, 0.466667),
+"times": PackedFloat32Array(0, 0.0333333, 0.1, 0.166667, 0.333333, 0.4, 0.466667),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 2, 1, 0]
@@ -329,7 +329,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_ukogc"]
 resource_name = "static"
-length = 0.5
+length = 3.0
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -338,7 +338,7 @@ tracks/0/path = NodePath("Eye/Eye:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.466667),
+"times": PackedFloat32Array(0, 0.333333, 0.466667),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [0, 1, 0]
@@ -614,7 +614,7 @@ region_rect = Rect2(0.005, 0, 256, 64)
 script = ExtResource("6_tsj6v")
 
 [node name="sword" type="CollisionShape2D" parent="SamSmall/Sprite2D/SwordHit"]
-position = Vector2(9, 6)
+position = Vector2(7.25, 6)
 shape = SubResource("RectangleShape2D_yr0cg")
 disabled = true
 
@@ -647,6 +647,7 @@ script = ExtResource("6_tsj6v")
 
 [node name="Sword" type="CollisionShape2D" parent="SamEmbiggened/Sprite2D/SwordHit"]
 position = Vector2(18, -1.25)
+scale = Vector2(0.919999, 1)
 shape = SubResource("RectangleShape2D_mqn22")
 disabled = true
 

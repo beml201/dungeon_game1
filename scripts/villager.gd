@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 # MetaData
 var speed := 200 +randi()%100
-var health := 100
+var health := 50
 var strength := 10
 var attack_speed := 2
 var knockback_time := 0.5
@@ -14,7 +14,7 @@ var corridor_positions := []
 
 # Other variables
 enum { IN_RANGE, IN_VIEW, KNOCKBACK, LONG_FOLLOW }
-var current_state = LONG_FOLLOW
+var current_state = null
 var can_attack := false
 var check_for_damage := false
 var player = null
@@ -23,6 +23,7 @@ var player_positions := []
 var villager_sprite = null
 var villager_animation = null
 var knockback_y = 0
+var spawn_wait = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -45,10 +46,12 @@ func _ready() -> void:
 			$Arms.show()
 			$body.shape = $Arms/body.shape
 			$body.scale = $Arms/body.scale
-			attack_speed = 0.5
-			strength = 5
-			knockback_time = 1.0
-			stun = 3.0
+			speed += 50
+			health = 75
+			strength = 3
+			attack_speed = 0.1
+			knockback_time = 0.5
+			stun = 2
 		"LEGS":
 			$Regular.hide()
 			villager_sprite = $Legs/Sprite/Sprite2D
@@ -56,13 +59,23 @@ func _ready() -> void:
 			$Legs.show()
 			$body.shape = $Legs/body.shape
 			$body.scale = $Legs/body.scale
-			speed += 100
-			strength += 10
-			attack_speed = 3
+			speed -= 100
+			health = 60
+			strength = 15
+			attack_speed = 1
+			knockback_time = 2
+			stun = 2
 	# Update the health label
 	$HealthLabel.text = "Health: "+str(max(0,health))
+	# Make it so you have a second to get away
+	await get_tree().create_timer(1).timeout
+	spawn_wait = false
+	current_state = LONG_FOLLOW
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if spawn_wait:
+		return
 	match current_state:
 		IN_VIEW:
 			villager_animation.play("walk")
@@ -109,10 +122,11 @@ func track_player():
 
 func walk_directly_to_player():
 	#player_positions = []
-	velocity = (player.global_position-global_position).normalized()
-	velocity *= speed/2
-	flip_sprite()
-	move_and_slide()
+	if player !=null:
+		velocity = (player.global_position-global_position).normalized()
+		velocity *= speed/2
+		flip_sprite()
+		move_and_slide()
 	
 func attack():
 	if can_attack:

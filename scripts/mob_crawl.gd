@@ -1,10 +1,10 @@
 extends CharacterBody2D
 
 # MetaData
-var speed = 100 +randi()%20
-var health := 100
-var strength := 1
-var attack_speed := 1.0
+var speed = 350+randi()%50
+var health := 75
+var strength := 5
+var attack_speed := 1.5
 # Finite state machine to track current state
 enum {IDLE, NEW_DIR, WALK, CHASE, ATTACK, KNOCKBACK}
 # Other variables
@@ -17,13 +17,14 @@ var mob_direction = "right"
 var current_state = IDLE
 var dir = Vector2.LEFT
 var knockback_y = 0
-var knockback_time := 0.3
-var stun := 0.2
+var knockback_time := 0.2
+var stun := 0.1
 #var player_current_attack = false
 
 func _ready():
 	randomize()
 	Global.connect("player_attack", _take_damage)
+	$HealthLabel.text = "Health: "+str(max(0,health))
 
 func _physics_process(delta):
 	match current_state:
@@ -46,8 +47,9 @@ func walk():
 	move()
 
 func chase():
-	velocity = player.global_position - global_position
-	move()
+	if player!= null:
+		velocity = speed*(player.global_position - global_position).normalized()
+		move()
 
 func attack():
 	if not is_attacking:
@@ -59,8 +61,10 @@ func attack():
 func move():
 	$AnimationPlayer.play("crawl")
 	$Sprite2D.flip_h = sign(velocity[0])==-1
-	if $Sprite2D.frame!=3:
-		velocity /=20
+	if $Sprite2D.frame!=0:
+		velocity /=4
+	if $Sprite2D.frame==4:
+		velocity /= 2
 	move_and_slide()
 	if velocity[0]>0:
 		mob_direction = "right"
@@ -95,7 +99,7 @@ func knockback():
 	velocity.x = int(mob_direction=="right")*2-1
 	velocity.x *= -1
 	velocity.y = knockback_y
-	velocity *= 2*speed
+	velocity *= speed
 	move_and_slide()
 
 # Picks random value from array

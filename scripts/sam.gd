@@ -3,7 +3,7 @@ extends CharacterBody2D
 # MetaData
 @export var speed = 400
 var health := 100
-var strength := 20
+var strength := 10
 
 # Other variables
 var player_upgrades := []
@@ -43,14 +43,14 @@ func _ready() -> void:
 func _load_embiggened_sam():
 	$SamSmall.hide()
 	$SamEmbiggened.show()
-	strength += 10
+	strength += 5
 	animation_melee = $SamEmbiggened/Animations
 	animation_walk = $SamEmbiggened/Animations
 	
 func _load_arm():
 	$Arm.show()
 	animation_melee = $Arm/Arm_Animations
-	strength += 20
+	strength += 10
 	$SamEmbiggened/Sprite2D.texture = load("res://assets/animations/lil dude ahhh my arm.png")
 	
 func _load_eye():
@@ -72,16 +72,17 @@ func _load_stomp():
 func _load_shield():
 	$Shield.show()
 	$Shield/Shield_Animations.play("static")
-	health += 20
+	health += 50
 	$HealthLabel.text = "Health: "+str(max(0,health))
 	
 func _take_damage(damage):
-	#if "ENSHEILD" in player_upgrades:
-		#want damage to be -20% 
+	if "ENSHIELD" in player_upgrades:
+		damage = max(1, floorf(damage*0.5))
 	health -= damage
 	damage_visual()
 	$HealthLabel.text = "Health: "+str(max(0,health))
 	if health<=0:
+		Global.game_end = true
 		queue_free()
 		
 func damage_visual(n_flashes=2):
@@ -170,7 +171,7 @@ func _input(event):
 		projectile.global_position = $Eye.global_position
 		$Eye/Eye_Animations.play("attack")
 		get_parent().add_child(projectile)
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(0.4).timeout
 		is_attacking = false 
 
 func _on_stomp_animations_animation_finished(anim_name: StringName) -> void:
@@ -189,11 +190,11 @@ func _on_hit_box_body_exited(body):
 		mob_slime_inattack_range = false
 		
 func _on_stomp_body_entered(body):
-	print(body)
-	print($Stomp/CollisionShape2D.disabled)
+	#print(body)
+	#print($Stomp/CollisionShape2D.disabled)
 	if body.has_method("_take_damage") and not body.has_method("player"):
 		body.check_for_damage = true
-		body._take_damage(30)
+		body._take_damage(20)
 
 		
 func mob_slime_attack():
@@ -230,6 +231,6 @@ func _on_fast_leg_animation_animation_finished(anim_name: StringName) -> void:
 	pass
 	
 func give_player_position():
-	while Global.villagers_killed!=Global.MAX_VILLAGERS_KILLED:
+	while Global.villagers_killed!=Global.MAX_VILLAGERS_KILLED and not Global.game_end:
 		await get_tree().create_timer(0.5).timeout
 		Global.log_player_position.emit(self.global_position)

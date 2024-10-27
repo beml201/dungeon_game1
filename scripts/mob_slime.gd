@@ -2,8 +2,8 @@ extends CharacterBody2D
 
 # MetaData
 var speed = 50 +randi()%20
-var health := 100
-var strength := 1
+var health := 50
+var strength := 3
 var attack_speed := 1.0
 var knockback_time := 0.3
 var stun := 0.2
@@ -24,6 +24,7 @@ var knockback_y = 0
 func _ready():
 	randomize()
 	Global.connect("player_attack", _take_damage)
+	$HealthLabel.text = "Health: "+str(max(0,health))
 
 func _physics_process(delta):
 	match current_state:
@@ -48,8 +49,9 @@ func walk():
 	move()
 
 func chase():
-	velocity = speed*(player.global_position - global_position).normalized()
-	move()
+	if player!=null:
+		velocity = speed*(player.global_position - global_position).normalized()
+		move()
 
 func attack():
 	if not is_attacking:
@@ -117,7 +119,7 @@ func _on_view_body_entered(body):
 	
 func _on_view_body_exited(body):
 	if body.has_method("player"):
-		#player = null
+		player = null
 		current_state = IDLE
 		$idle.paused = false
 

@@ -8,7 +8,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	$Score.text = "Villagers brutally murdered: " + str(Global.villagers_killed)
+	$Score.text = "Villagers brutally murdered: " + str(Global.villagers_killed) + "/" + str(Global.MAX_VILLAGERS_KILLED)
 	pass
 
 func _new_label(label):
@@ -27,3 +27,13 @@ func _on_button_pressed() -> void:
 	$Button.hide()
 	get_tree().paused = false
 	print("hello dungeon")
+
+
+func _on_restart_pressed() -> void:
+	Global.reset_globals()
+	get_tree().reload_current_scene()
+	#get_tree().paused = false
+	#$Restart.hide()
+	#$Youdied.hide()
+	#$WIN.hide()
+	
