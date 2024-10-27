@@ -33,7 +33,7 @@ func _ready():
 		# Add the mushrooms
 		var mushroom_types := []
 		if first_room:
-			mushroom_types = ["EMBIGGEN", "ENLARGEN"]
+			mushroom_types = ["EMBIGGEN", "ENLARGEN", "ENLEGEN"]
 			first_room = false
 		else:
 			mushroom_types = [Global.UPGRADE_OPTIONS.slice(2,10).pick_random()]

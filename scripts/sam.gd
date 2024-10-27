@@ -67,7 +67,7 @@ func _load_fastleg():
 func _load_stomp():
 	$Stomp.show()
 	$Stomp/CollisionShape2D.disabled = true
-	
+	$Stomp/CollisionShape2D/Sprite2D.hide()
 	
 func _load_shield():
 	$Shield.show()
@@ -160,6 +160,7 @@ func _input(event):
 	if event.is_action("stomp") and not is_attacking and "ENLEGEN" in player_upgrades:
 		is_attacking = true
 		$Stomp/Stomp_Animations.play("Stomp")
+		$Stomp/CollisionShape2D/Sprite2D.show()
 		
 		
 	if event.is_action("shoot") and not is_attacking and "ENSEEEN" in player_upgrades:
@@ -173,8 +174,10 @@ func _input(event):
 
 func _on_stomp_animations_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "Stomp":
+		$Stomp/CollisionShape2D/Sprite2D.hide()
 		await get_tree().create_timer(1).timeout
 		is_attacking = false
+		
 
 func _on_hit_box_body_entered(body):
 	if body.has_method("mob_slime"):
