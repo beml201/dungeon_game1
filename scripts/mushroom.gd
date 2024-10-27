@@ -22,19 +22,19 @@ func _ready():
 			$Sprite2D.texture = load("res://assets/green mush in cage.png")
 		"ENSEEEN":
 			default_text = "a shroom of enseeening"
-			$Sprite2D.texture = load("res://assets/green mush in cage.png")
+			$Sprite2D.texture = load("res://assets/blue mush in cage.png")
 		"ENLIGHTEN":
 			default_text = "a shroom of enlightening"
-			$Sprite2D.texture = load("res://assets/green mush in cage.png")
+			$Sprite2D.texture = load("res://assets/pink mush in cage.png")
 		"ENSPEEDEN":
-			default_text = "a shroom of Enspeedening"
-			$Sprite2D.texture = load("res://assets/mush in cage.png")
+			default_text = "a shroom of enspeedening"
+			$Sprite2D.texture = load("res://assets/orange mush in cage.png")
 		"ENLEGEN":
-			default_text = "a shroom of Enlegening"
-			$Sprite2D.texture = load("res://assets/mush in cage.png")
+			default_text = "a shroom of enlegening"
+			$Sprite2D.texture = load("res://assets/orange mush in cage.png")
 		"ENSHIELD":
-			default_text = "a shroom of Enshielding"
-			$Sprite2D.texture = load("res://assets/mush in cage.png")
+			default_text = "a shroom of enshielding"
+			$Sprite2D.texture = load("res://assets/purple mush in cage.png")
 	$TextBox/Label.text = default_text
 		
 func _physics_process(delta: float) -> void:

@@ -74,6 +74,7 @@ scale = Vector2(-30.3, 27.6844)
 shape = SubResource("CircleShape2D_6jksf")
 
 [node name="enemy_hitbox" type="Area2D" parent="."]
+texture_filter = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hitbox"]
 position = Vector2(0, 5)
