@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 # MetaData
-var speed = 100 +randi()%20
+var speed = 50 +randi()%20
 var health := 100
 var strength := 1
 var attack_speed := 1.0

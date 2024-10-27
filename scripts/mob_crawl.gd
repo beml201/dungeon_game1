@@ -6,13 +6,7 @@ var health := 100
 var strength := 1
 var attack_speed := 1.0
 # Finite state machine to track current state
-enum {
-	IDLE,
-	NEW_DIR,
-	WALK,
-	CHASE,
-	ATTACK
-}
+enum {IDLE, NEW_DIR, WALK, CHASE, ATTACK, KNOCKBACK}
 # Other variables
 #var player_chase = false
 var player = null
@@ -22,6 +16,9 @@ var player_attack_cooldown
 var mob_direction = "right"
 var current_state = IDLE
 var dir = Vector2.LEFT
+var knockback_y = 0
+var knockback_time := 0.3
+var stun := 0.2
 #var player_current_attack = false
 
 func _ready():
@@ -40,7 +37,8 @@ func _physics_process(delta):
 			chase()
 		ATTACK: # Attack Player
 			attack()
-	
+		KNOCKBACK:
+			knockback()
 
 	#deal_with_damage()
 
@@ -75,9 +73,28 @@ func _take_damage(damage):
 		health -= damage
 		$HealthLabel.text = "Health: "+str(max(0,health))
 		check_for_damage = false
+		current_state = KNOCKBACK
+		knockback_y = randf_range(-1, 1)
 		if health<=0:
 			Global.mobs_left -= 1
 			queue_free()
+		damage_visual()
+func damage_visual(n_flashes=3):
+	for i in range(2*n_flashes):
+		var time = knockback_time/(2*n_flashes)
+		await get_tree().create_timer(time).timeout
+		if i%2==0:
+			$Sprite2D.set_modulate(Color(1,0.2,0.2))
+		else:
+			$Sprite2D.set_modulate(Color(1,1,1))
+			
+			
+func knockback():
+	velocity.x = int(mob_direction=="right")*2-1
+	velocity.x *= -1
+	velocity.y = knockback_y
+	velocity *= 2*speed
+	move_and_slide()
 
 # Picks random value from array
 func choose(array):
@@ -109,6 +126,11 @@ func _on_enemy_hitbox_body_entered(body):
 
 func _on_enemy_hitbox_body_exited(body):
 	if body.has_method("player"):
+		# Add an additional timer if there is knockback
+		if current_state==KNOCKBACK:
+			await get_tree().create_timer(knockback_time).timeout
+			current_state = IDLE
+		await get_tree().create_timer(stun).timeout
 		current_state = CHASE
 		
 
@@ -121,12 +143,6 @@ func _on_idle_timeout():
 func _on_enemy_hitbox_area_entered(area):
 	if area.has_method("sword"):
 		check_for_damage = true
-
-
-
-
-
-
 
 
 func deal_with_damage():
@@ -143,3 +159,6 @@ func _on_attack_cooldown_timeout() -> void:
 	if health <=0:
 	#get_node("AnimationPlayer").play("die")
 		self.queue_free()
+
+
+#func _on_animation_player_animation_started(anim_name: StringName) -> void:
