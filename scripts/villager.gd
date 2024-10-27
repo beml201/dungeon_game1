@@ -10,6 +10,7 @@ var stun := 1
 const MAX_PLAYER_POSITIONS := 6
 const villager_types := ["REGULAR", "ARMS", "LEGS"]
 var villager_type := "REGULAR"
+var corridor_positions := []
 
 # Other variables
 enum { IN_RANGE, IN_VIEW, KNOCKBACK, LONG_FOLLOW }
@@ -58,6 +59,8 @@ func _ready() -> void:
 			speed += 100
 			strength += 10
 			attack_speed = 3
+	# Update the health label
+	$HealthLabel.text = "Health: "+str(max(0,health))
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	match current_state:
@@ -93,16 +96,19 @@ func flip_sprite():
 
 func track_player():
 	for pos in player_positions:
-		if pos.distance_squared_to(global_position)<25:
+		if pos.distance_squared_to(global_position)<900:
 			player_positions.pop_front()
+			break
 	if player_positions.size()>0:
 		velocity = (player_positions[0]-global_position).normalized()
 		velocity *= speed
 		flip_sprite()
 		move_and_slide()
+	else:
+		_add_nearest_bridge_to_player_positions()
 
 func walk_directly_to_player():
-	player_positions = []
+	#player_positions = []
 	velocity = (player.global_position-global_position).normalized()
 	velocity *= speed/2
 	flip_sprite()
@@ -166,7 +172,11 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body.has_method("player"):
 		current_state = IN_RANGE
 		can_attack = true
-
+	# If the villager hits a wall, go to the nearest bridge instead
+	if body.name=="RoomMap" and len(corridor_positions)>0:
+		if body.get_cell_source_id(global_position/Global.TILE_SIZE)==1:
+			_add_nearest_bridge_to_player_positions(body)
+			
 func _on_hitbox_body_exited(body: Node2D) -> void:
 	if body.has_method("player"):
 		# Add an additional timer if there is knockback
@@ -180,3 +190,27 @@ func _on_hitbox_body_exited(body: Node2D) -> void:
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.has_method("sword"):
 		check_for_damage = true
+		
+func _add_nearest_bridge_to_player_positions(tile=null):
+	var atlas_coords = Vector2(-1,-1)
+	if tile!=null:
+		atlas_coords = tile.get_cell_atlas_coords(global_position/Global.TILE_SIZE)
+	# Find the minimum distance
+	var closest_bridge_idx = 0
+	if atlas_coords.y==1:
+		for i in range(len(corridor_positions)):
+			if abs(global_position-corridor_positions[i]).y<abs(global_position-corridor_positions[closest_bridge_idx]).y:
+				closest_bridge_idx = i
+	elif atlas_coords.x==1:
+		for i in range(len(corridor_positions)):
+			if abs(global_position-corridor_positions[i]).x<abs(global_position-corridor_positions[closest_bridge_idx]).x:
+				closest_bridge_idx = i
+	else:
+		for i in range(len(corridor_positions)):
+			if global_position.distance_squared_to(corridor_positions[i])<global_position.distance_squared_to(corridor_positions[closest_bridge_idx]):
+				closest_bridge_idx = i
+	# Only got to the bridge it the villager isn't already going there
+	if player_positions.size()!=0:
+		if player_positions[0]==corridor_positions[closest_bridge_idx]:
+			return
+	player_positions.insert(0, corridor_positions[closest_bridge_idx])

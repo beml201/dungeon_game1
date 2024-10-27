@@ -30,7 +30,8 @@ func _ready() -> void:
 	animation_melee = $Basic_Animations
 	animation_walk = $Basic_Animations
 	$Stomp/CollisionShape2D.disabled = true
-	print($Stomp/CollisionShape2D.disabled)
+	#print($Stomp/CollisionShape2D.disabled)
+
 #func _load_small_sam():
 #	$body.shape = $SamSmall/CollisionShape2D.shape
 	#$body.position = $SamSmall/CollisionShape2D.position
@@ -78,9 +79,20 @@ func _take_damage(damage):
 	#if "ENSHEILD" in player_upgrades:
 		#want damage to be -20% 
 	health -= damage
+	damage_visual()
 	$HealthLabel.text = "Health: "+str(max(0,health))
 	if health<=0:
 		queue_free()
+		
+func damage_visual(n_flashes=2):
+	for i in range(2*n_flashes):
+		var time = 0.5/(2*n_flashes)
+		await get_tree().create_timer(time).timeout
+		for sprite in get_tree().get_nodes_in_group("sam_sprites"):
+			if i%2==0:
+				sprite.set_modulate(Color(1,0.2,0.2))
+			else:
+				sprite.set_modulate(Color(1,1,1))
 
 func _on_spritechange(event):
 	player_upgrades.append(event)
@@ -214,6 +226,6 @@ func _on_fast_leg_animation_animation_finished(anim_name: StringName) -> void:
 	pass
 	
 func give_player_position():
-	while not Global.game_end:
+	while Global.villagers_killed!=Global.MAX_VILLAGERS_KILLED:
 		await get_tree().create_timer(0.5).timeout
 		Global.log_player_position.emit(self.global_position)

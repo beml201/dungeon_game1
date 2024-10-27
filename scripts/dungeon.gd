@@ -13,6 +13,8 @@ const DIRECTIONS := [Vector2i(1,0),
 var generated_rooms: Array = []
 # Used in draw_corridor()
 var room_pos_ul: Array = []
+# Give the positions of wherecorridors are
+var corridor_pos_average: Array = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -117,8 +119,13 @@ func draw_corridor(n_events):
 		alt_tile_order = [6,4,7,5]
 	elif which_side==Vector2i(0,1):
 		alt_tile_order = [4,6,5,7]
+		
+	var average_corridor_position = Vector2i(0, 0)
 	for i in range(corridor_pos.size()):
 		tiles.set_cell(corridor_pos[i], 0, Vector2i(0,0), alt_tile_order[i])
+		average_corridor_position += corridor_pos[i]
+	# Update where the bridge positions are
+	corridor_pos_average.append(Vector2(average_corridor_position)/4)
 
 func add_mushrooms(coord_upperleft, room_width, room_height, types=['EMBIGGEN']):
 	for i in range(types.size()):

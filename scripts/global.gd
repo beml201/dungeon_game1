@@ -1,6 +1,7 @@
 extends Node
 
 # Static MetaData
+const MAX_VILLAGERS_KILLED = 100
 const TILE_SIZE := 64
 var UPGRADE_OPTIONS := ['EMBIGGEN', 'ENLARGEN', 'ENARMEN', 'ENSEEEN', 'ENLIGHTEN', 'ENSPEEDEN', 'ENLEGEN', 'ENSHIELD'] #'ENLEGGEN', 'ENSPEEDEN', 'ENSHEILDEN'
 const BASE_TILE_DICT := {
@@ -17,6 +18,8 @@ var player_can_upgrade := false
 var key_spawned := false
 var rooms_spawned = 0
 var mobs_left := 0
+# MetaData for the villagers
+var bridge_positions := []
 var villagers_killed := 0
 var game_end = false
 

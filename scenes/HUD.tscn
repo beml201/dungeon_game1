@@ -24,3 +24,10 @@ offset_top = 75.0
 offset_right = 119.0
 offset_bottom = 98.0
 text = "Space to stomp"
+
+[node name="Score" type="Label" parent="."]
+visible = false
+offset_left = 224.0
+offset_right = 454.0
+offset_bottom = 23.0
+text = "Villagers brutally murdered: 0"

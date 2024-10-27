@@ -31,7 +31,11 @@ func _ready():
 	add_enemies(0)
 	Global.connect("climb_ladder", climb_ladder)
 	Global.connect("cutscene_end", begin_phase2)
-
+	# TESTING
+	#for i in range(dungeon.N_ROOMS):
+	#	dungeon.draw_corridor(i+1)
+	#add_ladder()
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Global.mobs_left == 0 and not Global.key_spawned and not Global.player_can_upgrade:
@@ -42,14 +46,6 @@ func _process(delta):
 			add_key(Global.dungeons_finished)
 
 func add_enemies(room_number):
-	# Don't create mobs in the final dungeon
-	#if room_number+1==dungeon.N_ROOMS:
-	#	Global.mobs_left += 1
-	#	var ladder = Ladder.instantiate()
-	#	ladder.position = dungeon.room_pos_ul[room_number] + (dungeon.ROOM_SIZE/2)
-	#	ladder.position *= Global.TILE_SIZE
-	#	add_child(ladder)
-	#	return
 	# Select the last enemy for the room number to generate
 	var enemies = enemy_order.slice(0, 1+min(room_number, enemy_order.size()))
 	var to_spawn = enemies
@@ -91,18 +87,23 @@ func climb_ladder():
 	
 func add_random_villager():
 	var new_villager = Villager.instantiate()
+	# Tell the villagers where the corridors are
+	new_villager.corridor_positions = dungeon.corridor_pos_average.map(func(i): return i*Global.TILE_SIZE)
+	
 	var random_type = randi()%100
+	var random_rooms = dungeon.room_pos_ul.duplicate()
 	if random_type<80:
 		new_villager.villager_type="REGULAR"
+		# Make it so the regular villagers are much more likely to spawn in the end room
+		for i in range(50):
+			random_rooms.append(dungeon.room_pos_ul[-1])
 	elif random_type<95:
 		new_villager.villager_type="LEGS"
 	else:
 		new_villager.villager_type="ARMS"
-	var random_room = randi()%(50+dungeon.N_ROOMS)
-	if random_room<dungeon.N_ROOMS:
-		new_villager.global_position = dungeon.room_pos_ul[random_room]+dungeon.ROOM_SIZE/2
-	else:
-		new_villager.global_position = dungeon.room_pos_ul[-1]+dungeon.ROOM_SIZE/2
+	# Remove the end room
+	random_rooms.pop_back()
+	new_villager.global_position = random_rooms.pick_random() + dungeon.ROOM_SIZE/2
 	new_villager.global_position += Vector2(randi_range(-2,2), randi_range(-2,2))
 	new_villager.global_position *= Global.TILE_SIZE
 	add_child(new_villager)
@@ -117,11 +118,10 @@ func begin_phase2():
 	
 	player.give_player_position()
 	# Start making waves of villagers
-	for i in range(100):
+	for i in range(Global.MAX_VILLAGERS_KILLED):
 		if Global.game_end:
 			break
 		var new_villager_timeout = randf_range(0.5, 5^(i/100))
 		await get_tree().create_timer(new_villager_timeout).timeout
 		add_random_villager()
-	Global.game_end = true
 	print("End of game")

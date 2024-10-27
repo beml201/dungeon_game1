@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_0e6i6"]
 [ext_resource type="AudioStream" uid="uid://clpu6sh20fl4f" path="res://assets/music/dungeon.mp3" id="2_lekus"]
 [ext_resource type="PackedScene" uid="uid://bnhw8n7ib1j7v" path="res://scenes/HUD.tscn" id="3_ptf2s"]
-[ext_resource type="PackedScene" uid="uid://h6g56o37jpfg" path="res://scenes/cutscene.tscn" id="4_2uebo"]
+[ext_resource type="PackedScene" uid="uid://od8enannl5i2" path="res://scenes/cutscene.tscn" id="4_2uebo"]
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_0e6i6")
