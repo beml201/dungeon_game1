@@ -79,6 +79,7 @@ func _take_damage(damage):
 			Global.mobs_left -= 1
 			queue_free()
 		damage_visual()
+		
 func damage_visual(n_flashes=3):
 	for i in range(2*n_flashes):
 		var time = knockback_time/(2*n_flashes)

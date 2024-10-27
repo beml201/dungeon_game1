@@ -1,18 +1,13 @@
 extends CharacterBody2D
 
 # MetaData
-var speed = 100 +randi()%20
+var speed = 50 +randi()%20
 var health := 100
 var strength := 1
-var attack_speed := 1.0
+var attack_speed := 0.5
 const projectile = preload("res://scenes/phantom_projectile.tscn")
 # Finite state machine to track current state
-enum {
-	IDLE,
-	NEW_DIR,
-	WALK,
-	ATTACK
-}
+enum {IDLE, NEW_DIR, WALK, ATTACK, CHASE, KNOCKBACK}
 # Other variables
 #var player_chase = false
 var player = null
@@ -22,6 +17,9 @@ var player_attack_cooldown
 var mob_direction = "left"
 var current_state = IDLE
 var dir = Vector2.LEFT
+var knockback_y = 0
+var knockback_time := 0.3
+var stun := 0.2
 #var player_current_attack = false
 
 func _ready():
@@ -31,13 +29,19 @@ func _ready():
 func _physics_process(delta):
 	match current_state:
 		IDLE: # Do Nothing
-			$AnimationPlayer.play("idle")
+			pass
 		NEW_DIR: # Pick a new direction to walk
 			dir = choose([Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN])
 		WALK: # Idle walk
 			walk()
 		ATTACK: # Attack Player
 			attack()
+			chase(-1)
+		CHASE:
+			chase()
+			attack()
+		KNOCKBACK:
+			knockback()
 	
 	#deal_with_damage()
 
@@ -45,8 +49,9 @@ func walk():
 	velocity = dir * speed
 	move()
 
-func chase():
-	velocity = player.global_position - global_position
+func chase(chase_direction = 1):
+	velocity = speed*(player.global_position - global_position).normalized()
+	velocity *= chase_direction
 	move()
 
 func attack():
@@ -55,6 +60,22 @@ func attack():
 		cast()
 		await get_tree().create_timer(attack_speed).timeout
 		is_attacking = false
+		
+func knockback():
+	velocity.x = int(mob_direction=="right")*2-1
+	velocity.x *= -1
+	velocity.y = knockback_y
+	velocity *= 2*speed
+	move_and_slide()
+	
+func damage_visual(n_flashes=3):
+	for i in range(2*n_flashes):
+		var time = knockback_time/(2*n_flashes)
+		await get_tree().create_timer(time).timeout
+		if i%2==0:
+			$Sprite2D.set_modulate(Color(1,0.2,0.2))
+		else:
+			$Sprite2D.set_modulate(Color(1,1,1))
 
 func cast():
 	$AnimationPlayer.play("cast")
@@ -67,23 +88,32 @@ func cast():
 
 
 func move():
-	$AnimationPlayer.play("idle")
+	#$AnimationPlayer.play("idle")
 	$Sprite2D.flip_h = sign(velocity[0])==1
 	move_and_slide()
 	if velocity[0]>0:
 		mob_direction = "right"
 	elif velocity[0]<0:
 		mob_direction = "left"
+	if current_state == ATTACK:
+		$Sprite2D.flip_h = sign(velocity[0])==-1
+		if mob_direction == "right":
+			mob_direction = "left"
+		elif mob_direction == "left":
+			mob_direction = "right"
 
 func _take_damage(damage):
 	if check_for_damage:
 		health -= damage
 		$HealthLabel.text = "Health: "+str(max(0,health))
 		check_for_damage = false
+		current_state = KNOCKBACK
+		knockback_y = randf_range(-1, 1)
 		if health<=0:
 			Global.mobs_left -= 1
 			queue_free()
-
+		damage_visual()
+		
 # Picks random value from array
 func choose(array):
 	array.shuffle()
@@ -151,3 +181,16 @@ func _on_attack_cooldown_timeout() -> void:
 	if health <=0:
 	#get_node("AnimationPlayer").play("die")
 		self.queue_free()
+
+
+func _on_run_away_body_entered(body: Node2D) -> void:
+	if body.has_method("player"):
+		player = body
+		current_state = ATTACK
+		#$idle.paused = false
+
+func _on_run_away_body_exited(body: Node2D) -> void:
+	if body.has_method("player"):
+		player = body
+		current_state = CHASE
+		#$idle.paused = true
