@@ -132,6 +132,7 @@ tab_size = 12
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 visible = false
+texture_filter = 1
 scale = Vector2(20, 20)
 texture = ExtResource("2_pjpnn")
 
@@ -148,11 +149,13 @@ scale = Vector2(20, 20)
 texture = ExtResource("4_r55ou")
 
 [node name="Button" type="Button" parent="."]
-offset_left = 1084.0
-offset_top = 707.0
-offset_right = 1220.0
-offset_bottom = 843.0
-scale = Vector2(-17.1204, -10.4713)
+offset_left = 144.0
+offset_top = 451.0
+offset_right = 325.0
+offset_bottom = 486.0
+rotation = 3.14224
+scale = Vector2(-4.80113, -3.90154)
+text = "Click here to continue "
 
 [node name="Camera2D" type="Camera2D" parent="."]
 enabled = false
