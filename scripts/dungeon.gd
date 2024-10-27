@@ -33,10 +33,11 @@ func _ready():
 		# Add the mushrooms
 		var mushroom_types := []
 		if first_room:
-			mushroom_types = ["EMBIGGEN", "ENLARGEN"]
+			mushroom_types = ["EMBIGGEN",'',"ENLARGEN"]
 			first_room = false
 		else:
 			mushroom_types = [Global.UPGRADE_OPTIONS.slice(2,10).pick_random()]
+			mushroom_types.append('')
 			mushroom_types.append(Global.UPGRADE_OPTIONS.slice(2,10).pick_random())
 		# Don't add musrooms to the last room
 		if room!=generated_rooms[0][-1]:
@@ -129,7 +130,8 @@ func draw_corridor(n_events):
 
 func add_mushrooms(coord_upperleft, room_width, room_height, types=['EMBIGGEN']):
 	for i in range(types.size()):
-		var mushroom = preload("res://scenes/mushroom.tscn").instantiate()
-		mushroom.global_position = (coord_upperleft+Vector2i(1, 1+i))*Global.TILE_SIZE
-		mushroom.mushroom_type = types[i]
-		add_child(mushroom)
+		if types[i]!='':
+			var mushroom = preload("res://scenes/mushroom.tscn").instantiate()
+			mushroom.global_position = (coord_upperleft+Vector2i(1, 1+i))*Global.TILE_SIZE
+			mushroom.mushroom_type = types[i]
+			add_child(mushroom)

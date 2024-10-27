@@ -39,7 +39,6 @@ func _physics_process(delta):
 			attack()
 		KNOCKBACK:
 			knockback()
-
 	#deal_with_damage()
 
 func walk():
@@ -60,6 +59,8 @@ func attack():
 func move():
 	$AnimationPlayer.play("crawl")
 	$Sprite2D.flip_h = sign(velocity[0])==-1
+	if $Sprite2D.frame!=3:
+		velocity /=20
 	move_and_slide()
 	if velocity[0]>0:
 		mob_direction = "right"

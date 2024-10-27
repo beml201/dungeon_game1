@@ -124,7 +124,7 @@ func attack():
 		can_attack = true
 
 func knockback():
-	velocity.x = sign((player.global_position-global_position).x)
+	velocity.x = int(villager_direction=="right")*2-1
 	velocity.x *= -1
 	velocity.y = knockback_y
 	velocity *= speed
